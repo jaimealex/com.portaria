@@ -1,0 +1,539 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.portaria.view;
+
+import com.portaria.dao.UsuarioDAO;
+import com.portaria.dao.UsuarioDAOImpl;
+import com.portaria.entity.Usuario;
+import java.awt.EventQueue;
+import java.beans.Beans;
+import java.util.ArrayList;
+import java.util.Collections;
+import static java.util.Collections.list;
+
+import java.util.List;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.table.AbstractTableModel;
+import org.jdesktop.beansbinding.AutoBinding;
+import org.jdesktop.beansbinding.BeanProperty;
+import org.jdesktop.beansbinding.Binding;
+import org.jdesktop.beansbinding.BindingGroup;
+import org.jdesktop.beansbinding.Bindings;
+import org.jdesktop.beansbinding.ELProperty;
+import org.jdesktop.observablecollections.ObservableCollections;
+import org.jdesktop.swingbinding.JTableBinding;
+import org.jdesktop.swingbinding.SwingBindings;
+
+/**
+ *
+ * @author visitante
+ */
+public class ManutencaoUsuarioView extends JPanel {
+    private java.util.List<com.portaria.entity.Usuario> list;
+    private int iKey;
+    private List<Usuario> usuarioList2 = Collections.emptyList();
+    private Usuario usuarioSelecionado;
+    public ManutencaoUsuarioView() {
+        initComponents();
+        myInitComponents();
+    }
+    
+    private void myInitComponents(){
+        modButton.setEnabled(false);
+        bindingGroup = new BindingGroup();
+        cancelButton.setEnabled(false);
+        updateButton.setVisible(false);
+        UsuarioDAO dao = new UsuarioDAOImpl();
+        usuarioList = ObservableCollections.observableList(dao.findAll());
+        masterTable.setModel(new UsuarioTableModel(usuarioList));
+       
+        JTableBinding jTableBinding = SwingBindings.createJTableBinding(AutoBinding.UpdateStrategy.READ_WRITE, usuarioList, masterTable);
+        JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(ELProperty.create("${nome}"));
+        columnBinding.setColumnName("Nome");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(ELProperty.create("${login}"));
+        columnBinding.setColumnName("Login");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(ELProperty.create("${senha}"));
+        columnBinding.setColumnName("Senha");
+        columnBinding.setColumnClass(String.class);
+        bindingGroup.addBinding(jTableBinding);
+        jTableBinding.bind();
+        bindingGroup.bind();
+        
+        
+    }
+    
+    private void ResetText(){
+        nomeField.setText("");
+        loginField.setText("");
+        senhaField.setText("");
+    }   
+    
+    private void DisableText(){
+        nomeField.setEnabled(false);
+        loginField.setEnabled(false);
+        senhaField.setEnabled(false);
+    }
+    
+    private class UsuarioTableModel extends AbstractTableModel {
+
+        private List<Usuario> usuarios;
+        private final int COLUMN_COUNT = 3;
+        private final String[] columnNames = {"Nome", "Login", "Senha"};
+        
+        public UsuarioTableModel() {
+            usuarios = new ArrayList();
+        }
+
+        public UsuarioTableModel(List<Usuario> usuarios) {
+            this();
+            this.usuarios.addAll(usuarios);
+        }
+
+        @Override
+        public int getRowCount() {
+            return usuarios.size();
+        }
+
+        @Override
+        public int getColumnCount() {
+            return COLUMN_COUNT;
+        }
+
+        @Override
+        public String getColumnName(int i) {
+            return columnNames[i];
+        }
+
+        @Override
+        public Object getValueAt(int rowIndex, int columnIndex) {
+            Usuario usuario = usuarios.get(rowIndex);
+            switch (columnIndex) {
+                case 0:
+                    return usuario.getNome();
+                case 1:
+                    return usuario.getLogin();
+                case 2:
+                    return usuario.getSenha();
+                default:
+                    return "";
+            }
+        }
+
+        @Override
+        public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+            Usuario usuario = usuarios.get(rowIndex);
+            switch (columnIndex) {
+                case 0:
+                    usuario.setNome(aValue.toString());
+                    break;
+                case 1:
+                    usuario.setLogin(aValue.toString());
+                    break;
+                case 2:
+                    usuario.setSenha(aValue.toString());
+                    break;
+            }
+            fireTableDataChanged();
+        }
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
+
+        PortariaPUEntityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("PortariaPU").createEntityManager();
+        usuarioQuery = java.beans.Beans.isDesignTime() ? null : PortariaPUEntityManager.createQuery("SELECT u FROM Usuario u");
+        usuarioList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : usuarioQuery.getResultList();
+        masterScrollPane = new javax.swing.JScrollPane();
+        masterTable = new javax.swing.JTable();
+        nomeLabel = new javax.swing.JLabel();
+        loginLabel = new javax.swing.JLabel();
+        senhaLabel = new javax.swing.JLabel();
+        saveButton = new javax.swing.JButton();
+        cancelButton = new javax.swing.JButton();
+        newButton = new javax.swing.JButton();
+        deleteButton = new javax.swing.JButton();
+        nomeField = new javax.swing.JTextField();
+        loginField = new javax.swing.JTextField();
+        senhaField = new javax.swing.JTextField();
+        modButton = new javax.swing.JButton();
+        updateButton = new javax.swing.JButton();
+
+        FormListener formListener = new FormListener();
+
+        masterTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        masterTable.setDoubleBuffered(false);
+        masterTable.setDropMode(javax.swing.DropMode.ON);
+        masterTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        masterTable.setShowVerticalLines(false);
+        masterTable.setSurrendersFocusOnKeystroke(true);
+        masterTable.addMouseListener(formListener);
+        masterScrollPane.setViewportView(masterTable);
+
+        nomeLabel.setText("Nome:");
+
+        loginLabel.setText("Login:");
+
+        senhaLabel.setText("Senha:");
+
+        saveButton.setText("Salvar");
+        saveButton.setEnabled(false);
+        saveButton.addActionListener(formListener);
+
+        cancelButton.setText("Cancelar");
+        cancelButton.addActionListener(formListener);
+
+        newButton.setText("Novo");
+        newButton.addMouseListener(formListener);
+        newButton.addActionListener(formListener);
+
+        deleteButton.setText("Excluir");
+
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), deleteButton, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        bindingGroup.addBinding(binding);
+
+        deleteButton.addActionListener(formListener);
+
+        nomeField.setEditable(false);
+        nomeField.setEnabled(false);
+
+        loginField.setEditable(false);
+        loginField.setEnabled(false);
+
+        senhaField.setEditable(false);
+        senhaField.setEnabled(false);
+
+        modButton.setText("Modificar");
+        modButton.addActionListener(formListener);
+
+        updateButton.setText("Atualizar");
+        updateButton.addActionListener(formListener);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(modButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(newButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(deleteButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cancelButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(saveButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(updateButton))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(masterScrollPane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(senhaLabel)
+                                    .addComponent(loginLabel)
+                                    .addComponent(nomeLabel))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(nomeField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE)
+                                    .addComponent(loginField, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(senhaField))))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cancelButton, deleteButton, newButton, saveButton});
+
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nomeLabel)
+                    .addComponent(nomeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(loginLabel)
+                    .addComponent(loginField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(senhaLabel)
+                    .addComponent(senhaField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(saveButton)
+                    .addComponent(cancelButton)
+                    .addComponent(deleteButton)
+                    .addComponent(newButton)
+                    .addComponent(modButton)
+                    .addComponent(updateButton))
+                .addContainerGap())
+        );
+
+        bindingGroup.bind();
+    }
+
+    // Code for dispatching events from components to event handlers.
+
+    private class FormListener implements java.awt.event.ActionListener, java.awt.event.MouseListener {
+        FormListener() {}
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            if (evt.getSource() == saveButton) {
+                ManutencaoUsuarioView.this.saveButtonActionPerformed(evt);
+            }
+            else if (evt.getSource() == cancelButton) {
+                ManutencaoUsuarioView.this.cancelButtonActionPerformed(evt);
+            }
+            else if (evt.getSource() == newButton) {
+                ManutencaoUsuarioView.this.newButtonActionPerformed(evt);
+            }
+            else if (evt.getSource() == deleteButton) {
+                ManutencaoUsuarioView.this.deleteButtonActionPerformed(evt);
+            }
+            else if (evt.getSource() == modButton) {
+                ManutencaoUsuarioView.this.modButtonActionPerformed(evt);
+            }
+            else if (evt.getSource() == updateButton) {
+                ManutencaoUsuarioView.this.updateButtonActionPerformed(evt);
+            }
+        }
+
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            if (evt.getSource() == masterTable) {
+                ManutencaoUsuarioView.this.masterTableMouseClicked(evt);
+            }
+            else if (evt.getSource() == newButton) {
+                ManutencaoUsuarioView.this.newButtonMouseClicked(evt);
+            }
+        }
+
+        public void mouseEntered(java.awt.event.MouseEvent evt) {
+        }
+
+        public void mouseExited(java.awt.event.MouseEvent evt) {
+        }
+
+        public void mousePressed(java.awt.event.MouseEvent evt) {
+        }
+
+        public void mouseReleased(java.awt.event.MouseEvent evt) {
+        }
+    }// </editor-fold>//GEN-END:initComponents
+
+    
+
+    @SuppressWarnings("unchecked")
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+        int row = masterTable.getSelectedRow();
+        if (row < 0) return;
+        List<Usuario> temp = new ArrayList<>(usuarioList);
+        usuarioList.clear();
+        usuarioList.addAll(temp);
+        if(usuarioSelecionado != null){
+            usuarioList.remove(row);
+        }
+        if (usuarioSelecionado != null && usuarioSelecionado.getIdusuario() != null && usuarioSelecionado.getIdusuario() > 0) {
+            usuarioList.add(row, usuarioSelecionado);
+        }
+        modButton.setEnabled(false);
+        cancelButton.setEnabled(false);
+        ResetText();
+        DisableText();
+    }//GEN-LAST:event_cancelButtonActionPerformed
+
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+        int opcao = JOptionPane.showConfirmDialog(null, "Deseja realmente excluir o registro selecionado?", "Confirmação", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (opcao == JOptionPane.OK_OPTION){
+            Thread t = new Thread(() -> {
+                int selected = masterTable.getSelectedRow();
+                Usuario u = usuarioList.get(selected);
+                UsuarioDAO dao = new UsuarioDAOImpl();
+                dao.remove(u);
+                usuarioList.remove(selected);
+                ResetText();
+            });
+            t.start();
+        }else{
+            JOptionPane.showMessageDialog(null, "Operação cancelada!", "Informação", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_deleteButtonActionPerformed
+    }
+    private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
+        ResetText();
+        senhaField.setEditable(true);
+        senhaField.setEnabled(true);
+        senhaField.setFocusable(true);
+        nomeField.setEditable(true);
+        nomeField.setEnabled(true);
+        nomeField.setFocusable(true);
+        loginField.setEditable(true);
+        loginField.setEnabled(true);
+        loginField.setFocusable(true);
+        saveButton.setEnabled(true);
+    }//GEN-LAST:event_newButtonActionPerformed
+    
+    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Usuario u = new Usuario();
+                UsuarioDAO<Usuario> dao = new UsuarioDAOImpl();
+                u.setLogin(loginField.getText());
+                u.setNome(nomeField.getText());
+                u.setSenha(senhaField.getText());
+                u = dao.save(u);
+                usuarioList.add(u);
+                int row = usuarioList.size() -1;
+                JOptionPane.showMessageDialog(null, "Operação executada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                usuarioList.size();
+            }
+        });
+        t.start();
+        ResetText();
+        DisableText();
+        saveButton.setEnabled(false);
+    }//GEN-LAST:event_saveButtonActionPerformed
+
+    private void newButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_newButtonMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_newButtonMouseClicked
+    
+    private void enableForm(boolean b) {
+        loginField.setEditable(true);
+        loginField.setEnabled(true);
+        nomeField.setEditable(true);
+        nomeField.setEnabled(true);
+        senhaField.setEditable(true);
+        senhaField.setEnabled(true);
+    }
+    
+    private void showSelected() {
+        int[] selected = masterTable.getSelectedRows();
+        if (selected.length > 0) {
+            com.portaria.entity.Usuario u = usuarioList.get(masterTable.convertRowIndexToModel(selected[0]));
+            nomeField.setText(u.getNome());
+            loginField.setText(u.getLogin());
+            senhaField.setText(u.getSenha());
+            }
+        this.enableForm(false);
+    }
+    
+    private void modButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modButtonActionPerformed
+        saveButton.setVisible(false);
+        updateButton.setVisible(true);
+        this.showSelected();
+        this.enableForm(true);
+        masterTable.setColumnSelectionAllowed(false);
+    }//GEN-LAST:event_modButtonActionPerformed
+
+    private void masterTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_masterTableMouseClicked
+        modButton.setEnabled(true);
+        cancelButton.setEnabled(true);
+    }//GEN-LAST:event_masterTableMouseClicked
+
+    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Usuario u = new Usuario();
+                UsuarioDAO<Usuario> dao = new UsuarioDAOImpl();
+                u.setLogin(loginField.getText());
+                u.setNome(nomeField.getText());
+                u.setSenha(senhaField.getText());
+                u = dao.refresh(u);
+                
+                int row = masterTable.getSelectedRow();
+                JOptionPane.showMessageDialog(null, "Operação executada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                updateButton.setEnabled(false);
+                saveButton.setEnabled(true);
+            }
+        });
+        t.start();
+        ResetText();
+        DisableText();
+        saveButton.setEnabled(false);
+    }//GEN-LAST:event_updateButtonActionPerformed
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.persistence.EntityManager PortariaPUEntityManager;
+    private javax.swing.JButton cancelButton;
+    private javax.swing.JButton deleteButton;
+    private javax.swing.JTextField loginField;
+    private javax.swing.JLabel loginLabel;
+    private javax.swing.JScrollPane masterScrollPane;
+    protected javax.swing.JTable masterTable;
+    private javax.swing.JButton modButton;
+    private javax.swing.JButton newButton;
+    private javax.swing.JTextField nomeField;
+    private javax.swing.JLabel nomeLabel;
+    private javax.swing.JButton saveButton;
+    private javax.swing.JTextField senhaField;
+    private javax.swing.JLabel senhaLabel;
+    private javax.swing.JButton updateButton;
+    private java.util.List<com.portaria.entity.Usuario> usuarioList;
+    private javax.persistence.Query usuarioQuery;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
+    // End of variables declaration//GEN-END:variables
+    public static void main(String[] args) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(ManutencaoUsuarioView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(ManutencaoUsuarioView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(ManutencaoUsuarioView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(ManutencaoUsuarioView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                JFrame frame = new JFrame();
+                frame.setContentPane(new ManutencaoUsuarioView());
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.pack();
+                frame.setVisible(true);
+            }
+        });
+    }
+    
+}
