@@ -5,7 +5,6 @@
  */
 package com.portaria.model;
 
-
 import com.portaria.dao.PessoaDAO;
 import com.portaria.dao.PessoaDAOImpl;
 import com.portaria.entity.Pessoa;
@@ -17,7 +16,7 @@ import org.jdesktop.observablecollections.ObservableCollections;
 
 /**
  * Classe utilizada como modelo de dados para a tela de manutenção de inscrições
- * 
+ *
  * @author winston
  */
 public class EntradaModel extends BindableModel {
@@ -28,7 +27,6 @@ public class EntradaModel extends BindableModel {
     private List<Pessoa> pessoas;
     private List<Pessoa> pessoasSelecionadas;
 
- 
     public List<Pessoa> getPessoasSelecionadas() {
         return pessoasSelecionadas;
     }
@@ -37,45 +35,20 @@ public class EntradaModel extends BindableModel {
         this.pessoasSelecionadas = pessoasSelecionadas;
     }
 
-    public List<Pessoa> getPessoas() {
-        PessoaDAO<Pessoa> dao = new PessoaDAOImpl();
-        pessoas.clear();
-        pessoas.addAll(dao.findAll());
-        return pessoas;
-    }
 
-  
- 
-    
+
     //private NavigableMap<Long, Inscricao> inscricaoNavigableMap;
-
     /**
      * Construtor da classe
      */
     public EntradaModel() {
         usuario = new Usuario();
         veiculo = new Veiculo();
-        
-        pessoasSelecionadas = ObservableCollections.observableList(new ArrayList());        
-        pessoas = ObservableCollections.observableList(new ArrayList()); 
-        /*teste*/
-        pessoa = new Pessoa();
-        pessoa.setIdpessoa(1);
-        pessoa.setCpf("1234");
-        pessoa.setNome("1234");
-        pessoa.setRg("1234");        
-        pessoasSelecionadas.add(pessoa);
-        
-        pessoa = new Pessoa();
-        pessoa.setIdpessoa(2);
-        pessoa.setCpf("22212344");
-        pessoa.setNome("2221234");
-        pessoa.setRg("221234");        
-        pessoasSelecionadas.add(pessoa);     
-        /*teste*/
-    }
 
+        pessoasSelecionadas = ObservableCollections.observableList(new ArrayList());
+        pessoas = ObservableCollections.observableList(new ArrayList());
  
+    }
 
     public Usuario getUsuario() {
         return usuario;
@@ -84,7 +57,7 @@ public class EntradaModel extends BindableModel {
     public void setUsuario(Usuario usuario) {
         firePropertyChange("usuario", this.usuario, usuario);
         this.usuario = usuario;
-        
+
     }
 
     public Veiculo getVeiculo() {
@@ -96,26 +69,61 @@ public class EntradaModel extends BindableModel {
         this.veiculo = veiculo;
     }
 
-    public void movePessoa(int i) {
-        this.pessoasSelecionadas.add(this.pessoas.get(i));
+    public void movePessoa(int i) {        
+        Pessoa p = this.pessoas.get(i);
+        if (! this.pessoasSelecionadas.contains(p)) {
+            this.pessoasSelecionadas.add(p);
+        }
+        //this.pessoaNavigableMap.put(pessoa.getIdpessoa() pessoa);
+        //setPessoasSelecionadas(pessoa);
+        //firePropertyChange("inscricaoList", null, Collections.unmodifiableList(inscricaoList));
+        //firePropertyChange("inscricaoNavigableMap", null, Collections.unmodifiableNavigableMap(inscricaoNavigableMap));
+    }
+    
+    public List<Pessoa> getPessoas() {
+        PessoaDAO<Pessoa> dao = new PessoaDAOImpl();
+        pessoas.clear();
+        pessoas.addAll(dao.findAll());
+        return pessoas;
+    }
+    public boolean setFiltroPessoaByNome(String s) {        
+        PessoaDAO<Pessoa> dao = new PessoaDAOImpl();
+        pessoas.clear();
+        if (s == null){
+            pessoas.addAll(dao.findAll());
+            
+        }
+        else {
+            pessoas.addAll(dao.findByName(s));
+        }
+            
         
-        //this.pessoaNavigableMap.put(pessoa.getIdpessoa() pessoa);
-        //setPessoasSelecionadas(pessoa);
-        //firePropertyChange("inscricaoList", null, Collections.unmodifiableList(inscricaoList));
-        //firePropertyChange("inscricaoNavigableMap", null, Collections.unmodifiableNavigableMap(inscricaoNavigableMap));
-    }  
-    
-    public void addPessoa(Pessoa pessoa) {
-        this.pessoasSelecionadas.add(pessoa);
-        //this.pessoaNavigableMap.put(pessoa.getIdpessoa() pessoa);
-        //setPessoasSelecionadas(pessoa);
-        //firePropertyChange("inscricaoList", null, Collections.unmodifiableList(inscricaoList));
-        //firePropertyChange("inscricaoNavigableMap", null, Collections.unmodifiableNavigableMap(inscricaoNavigableMap));
-    }    
+        if (pessoas.size() > 0) {
+            return true;
+        } else {
+            return false;
+        }
 
-    
-    
-    
+    }
+    public boolean setFiltroPessoaByCpf(String s) {
+        PessoaDAO<Pessoa> dao = new PessoaDAOImpl();
+        pessoas.clear();
+        if (s == null){
+            pessoas.addAll(dao.findAll());
+        }
+        else {
+            pessoas.addAll(dao.findByCpf(s));
+            
+        }
+        if (pessoas.size() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+
 //    /**
 //     * 
 //     * @return
@@ -316,7 +324,6 @@ public class EntradaModel extends BindableModel {
 //    public void setInscricaoNavigableMap(NavigableMap<Long, Inscricao> inscricaoNavigableMap) {
 //        this.inscricaoNavigableMap = inscricaoNavigableMap;
 //    }
-
     public Pessoa getPessoa() {
         return pessoa;
     }
