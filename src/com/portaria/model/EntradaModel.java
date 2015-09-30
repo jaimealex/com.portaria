@@ -6,6 +6,8 @@
 package com.portaria.model;
 
 
+import com.portaria.dao.PessoaDAO;
+import com.portaria.dao.PessoaDAOImpl;
 import com.portaria.entity.Pessoa;
 import com.portaria.entity.Usuario;
 import com.portaria.entity.Veiculo;
@@ -22,8 +24,29 @@ public class EntradaModel extends BindableModel {
 
     private Usuario usuario;
     private Veiculo veiculo;
+    private Pessoa pessoa;
     private List<Pessoa> pessoas;
-    private Pessoa pessoaSelecionada ;
+    private List<Pessoa> pessoasSelecionadas;
+
+ 
+    public List<Pessoa> getPessoasSelecionadas() {
+        return pessoasSelecionadas;
+    }
+
+    public void setPessoasSelecionadas(List<Pessoa> pessoasSelecionadas) {
+        this.pessoasSelecionadas = pessoasSelecionadas;
+    }
+
+    public List<Pessoa> getPessoas() {
+        PessoaDAO<Pessoa> dao = new PessoaDAOImpl();
+        pessoas.clear();
+        pessoas.addAll(dao.findAll());
+        return pessoas;
+    }
+
+  
+ 
+    
     //private NavigableMap<Long, Inscricao> inscricaoNavigableMap;
 
     /**
@@ -33,21 +56,22 @@ public class EntradaModel extends BindableModel {
         usuario = new Usuario();
         veiculo = new Veiculo();
         
-        pessoas = ObservableCollections.observableList(new ArrayList());        
+        pessoasSelecionadas = ObservableCollections.observableList(new ArrayList());        
+        pessoas = ObservableCollections.observableList(new ArrayList()); 
         /*teste*/
-        pessoaSelecionada = new Pessoa();
-        pessoaSelecionada.setIdpessoa(1);
-        pessoaSelecionada.setCpf("1234");
-        pessoaSelecionada.setNome("1234");
-        pessoaSelecionada.setRg("1234");        
-        pessoas.add(pessoaSelecionada);
+        pessoa = new Pessoa();
+        pessoa.setIdpessoa(1);
+        pessoa.setCpf("1234");
+        pessoa.setNome("1234");
+        pessoa.setRg("1234");        
+        pessoasSelecionadas.add(pessoa);
         
-        pessoaSelecionada = new Pessoa();
-        pessoaSelecionada.setIdpessoa(2);
-        pessoaSelecionada.setCpf("2221234");
-        pessoaSelecionada.setNome("2221234");
-        pessoaSelecionada.setRg("221234");
-        pessoas.add(pessoaSelecionada);        
+        pessoa = new Pessoa();
+        pessoa.setIdpessoa(2);
+        pessoa.setCpf("22212344");
+        pessoa.setNome("2221234");
+        pessoa.setRg("221234");        
+        pessoasSelecionadas.add(pessoa);     
         /*teste*/
     }
 
@@ -72,32 +96,25 @@ public class EntradaModel extends BindableModel {
         this.veiculo = veiculo;
     }
 
-    public List<Pessoa> getPessoas() {
-        return pessoas;
-    }
-
-    public void setPessoas(List<Pessoa> pessoas) {
-        firePropertyChange("pessoas", this.pessoas, pessoas);
-        this.pessoas = pessoas;
-    }
-
-    public void addPessoa(Pessoa pessoa) {
-        this.pessoas.add(pessoa);
+    public void movePessoa(int i) {
+        this.pessoasSelecionadas.add(this.pessoas.get(i));
+        
         //this.pessoaNavigableMap.put(pessoa.getIdpessoa() pessoa);
-        setPessoaSelecionada(pessoa);
+        //setPessoasSelecionadas(pessoa);
+        //firePropertyChange("inscricaoList", null, Collections.unmodifiableList(inscricaoList));
+        //firePropertyChange("inscricaoNavigableMap", null, Collections.unmodifiableNavigableMap(inscricaoNavigableMap));
+    }  
+    
+    public void addPessoa(Pessoa pessoa) {
+        this.pessoasSelecionadas.add(pessoa);
+        //this.pessoaNavigableMap.put(pessoa.getIdpessoa() pessoa);
+        //setPessoasSelecionadas(pessoa);
         //firePropertyChange("inscricaoList", null, Collections.unmodifiableList(inscricaoList));
         //firePropertyChange("inscricaoNavigableMap", null, Collections.unmodifiableNavigableMap(inscricaoNavigableMap));
     }    
 
-    public Pessoa getPessoaSelecionada() {
-        return pessoaSelecionada;
-    }
     
-    public void setPessoaSelecionada(Pessoa pessoa) {
-        //firePropertyChange("pessoaSelecionada", this.pessoaSelecionada, pessoa);
-        this.pessoaSelecionada = pessoa;
-        
-    }    
+    
     
 //    /**
 //     * 
@@ -299,5 +316,13 @@ public class EntradaModel extends BindableModel {
 //    public void setInscricaoNavigableMap(NavigableMap<Long, Inscricao> inscricaoNavigableMap) {
 //        this.inscricaoNavigableMap = inscricaoNavigableMap;
 //    }
+
+    public Pessoa getPessoa() {
+        return pessoa;
+    }
+
+    public void setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
+    }
 
 }
