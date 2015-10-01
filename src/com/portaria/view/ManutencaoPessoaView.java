@@ -6,16 +6,11 @@
 package com.portaria.view;
 
 import com.portaria.dao.PessoaDAO;
-import com.portaria.dao.PessoaDAOImpl;
-import com.portaria.dao.UsuarioDAO;
-import com.portaria.dao.UsuarioDAOImpl;
 import com.portaria.entity.Pessoa;
-import com.portaria.entity.Usuario;
 
 import java.awt.EventQueue;
 import java.util.ArrayList;
 import java.util.Collections;
-import static java.util.Collections.list;
 
 import java.util.List;
 import javax.swing.JFrame;
@@ -23,10 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.AbstractTableModel;
 import org.jdesktop.beansbinding.AutoBinding;
-import org.jdesktop.beansbinding.BeanProperty;
-import org.jdesktop.beansbinding.Binding;
 import org.jdesktop.beansbinding.BindingGroup;
-import org.jdesktop.beansbinding.Bindings;
 import org.jdesktop.beansbinding.ELProperty;
 import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.swingbinding.JTableBinding;
@@ -288,7 +280,7 @@ public class ManutencaoPessoaView extends JPanel {
 
     @SuppressWarnings("unchecked")
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
-        PessoaDAO<Pessoa> dao = new PessoaDAOImpl();
+        PessoaDAO dao = new PessoaDAO();
         list.clear();
         list.addAll(dao.findAll());
     }//GEN-LAST:event_refreshButtonActionPerformed
@@ -305,7 +297,7 @@ public class ManutencaoPessoaView extends JPanel {
     private void myInitComponents() {
         bindingGroup = new BindingGroup();
 
-        PessoaDAO dao = new PessoaDAOImpl();
+        PessoaDAO dao = new PessoaDAO();
         list = ObservableCollections.observableList(dao.findAll());
         masterTable.setModel(new PessoaTableModel(list));
 
@@ -362,7 +354,7 @@ public class ManutencaoPessoaView extends JPanel {
             cpfField.setText(p.getCpf());
             nomeField.setText(p.getNome());
             rgField.setText(p.getRg());
-            iKey = p.getIdpessoa();
+            //iKey = p.getIdpessoa();
         }
         this.enableForm(false);
         searchBt = false;
@@ -407,12 +399,12 @@ public class ManutencaoPessoaView extends JPanel {
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         Pessoa altP = new Pessoa();
-        PessoaDAO<Pessoa> dao = new PessoaDAOImpl();
-        altP.setIdpessoa(iKey);
+        PessoaDAO dao = new PessoaDAO();
+        //altP.setIdpessoa(iKey);
         altP.setCpf(cpfField.getText());
         altP.setNome(nomeField.getText());
         altP.setRg(rgField.getText());
-        dao.remove(altP);
+        //dao.remove(altP);
         list.remove(altP);
     }//GEN-LAST:event_deleteButtonActionPerformed
 
@@ -431,12 +423,12 @@ public class ManutencaoPessoaView extends JPanel {
 
             
         Pessoa altP = new Pessoa();
-        PessoaDAO<Pessoa> dao = new PessoaDAOImpl();
-        altP.setIdpessoa(iKey);
+        PessoaDAO dao = new PessoaDAO();
+        //altP.setIdpessoa(iKey);
         altP.setCpf(cpfField.getText());
         altP.setNome(nomeField.getText());
         altP.setRg(rgField.getText());
-        altP = dao.save(altP);
+        //altP = dao.save(altP);
 
 
         if (iKey == 0) {
@@ -481,7 +473,7 @@ public class ManutencaoPessoaView extends JPanel {
     }//GEN-LAST:event_modButtonActionPerformed
 
     private void srchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_srchButtonActionPerformed
-        PessoaDAO<Pessoa> dao = new PessoaDAOImpl();
+        PessoaDAO dao = new PessoaDAO();
         if (searchBt == false) {
             cpfField.setEditable(true);
             cpfField.setEnabled(true);
@@ -511,9 +503,9 @@ public class ManutencaoPessoaView extends JPanel {
         
         if (searchBt == true) {
             cpfField.setText("");
-            PessoaDAO<Pessoa> dao = new PessoaDAOImpl();
+            PessoaDAO dao = new PessoaDAO();
             list.clear();
-            list.addAll(dao.findByName(nomeField.getText()));
+            //list.addAll(dao.findByName(nomeField.getText()));
         }
         
     }//GEN-LAST:event_nomeFieldKeyReleased
@@ -521,7 +513,7 @@ public class ManutencaoPessoaView extends JPanel {
     private void cpfFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cpfFieldKeyReleased
         if (searchBt == true) {
             nomeField.setText("");
-            PessoaDAO<Pessoa> dao = new PessoaDAOImpl();
+            PessoaDAO dao = new PessoaDAO();
             list.clear();
             list.addAll(dao.findByCpf(cpfField.getText()));
         }

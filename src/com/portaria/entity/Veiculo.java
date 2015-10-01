@@ -5,8 +5,6 @@
  */
 package com.portaria.entity;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -17,7 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 /**
  *
@@ -32,14 +29,13 @@ import javax.persistence.Transient;
     @NamedQuery(name = "Veiculo.findByModelo", query = "SELECT v FROM Veiculo v WHERE v.modelo = :modelo"),
     @NamedQuery(name = "Veiculo.findByCor", query = "SELECT v FROM Veiculo v WHERE v.cor = :cor")})
 public class Veiculo implements Serializable {
-    @Transient
-    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "idveiculo")
-    private Integer idveiculo;
+    private Long idveiculo;
     @Basic(optional = false)
     @Column(name = "placa")
     private String placa;
@@ -51,23 +47,21 @@ public class Veiculo implements Serializable {
     public Veiculo() {
     }
 
-    public Veiculo(Integer idveiculo) {
+    public Veiculo(Long idveiculo) {
         this.idveiculo = idveiculo;
     }
 
-    public Veiculo(Integer idveiculo, String placa) {
+    public Veiculo(Long idveiculo, String placa) {
         this.idveiculo = idveiculo;
         this.placa = placa;
     }
 
-    public Integer getIdveiculo() {
+    public Long getIdveiculo() {
         return idveiculo;
     }
 
-    public void setIdveiculo(Integer idveiculo) {
-        Integer oldIdveiculo = this.idveiculo;
+    public void setIdveiculo(Long idveiculo) {
         this.idveiculo = idveiculo;
-        changeSupport.firePropertyChange("idveiculo", oldIdveiculo, idveiculo);
     }
 
     public String getPlaca() {
@@ -75,9 +69,7 @@ public class Veiculo implements Serializable {
     }
 
     public void setPlaca(String placa) {
-        String oldPlaca = this.placa;
         this.placa = placa;
-        changeSupport.firePropertyChange("placa", oldPlaca, placa);
     }
 
     public String getModelo() {
@@ -85,9 +77,7 @@ public class Veiculo implements Serializable {
     }
 
     public void setModelo(String modelo) {
-        String oldModelo = this.modelo;
         this.modelo = modelo;
-        changeSupport.firePropertyChange("modelo", oldModelo, modelo);
     }
 
     public String getCor() {
@@ -95,9 +85,7 @@ public class Veiculo implements Serializable {
     }
 
     public void setCor(String cor) {
-        String oldCor = this.cor;
         this.cor = cor;
-        changeSupport.firePropertyChange("cor", oldCor, cor);
     }
 
     @Override
@@ -125,12 +113,4 @@ public class Veiculo implements Serializable {
         return "com.portaria.view.Veiculo[ idveiculo=" + idveiculo + " ]";
     }
 
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        changeSupport.addPropertyChangeListener(listener);
-    }
-
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        changeSupport.removePropertyChangeListener(listener);
-    }
-    
 }

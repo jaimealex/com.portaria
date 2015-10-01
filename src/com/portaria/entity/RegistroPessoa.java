@@ -5,8 +5,6 @@
  */
 package com.portaria.entity;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -20,7 +18,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 
 /**
  *
@@ -36,14 +33,13 @@ import javax.persistence.Transient;
     @NamedQuery(name = "RegistroPessoa.findByIdusuario", query = "SELECT r FROM RegistroPessoa r WHERE r.idusuario = :idusuario"),
     @NamedQuery(name = "RegistroPessoa.findByIdpessoa", query = "SELECT r FROM RegistroPessoa r WHERE r.idpessoa = :idpessoa")})
 public class RegistroPessoa implements Serializable {
-    @Transient
-    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "idregistro")
-    private Integer idregistro;
+    private Long idregistro;
     @Basic(optional = false)
     @Column(name = "entrada")
     @Temporal(TemporalType.TIMESTAMP)
@@ -55,30 +51,27 @@ public class RegistroPessoa implements Serializable {
     @Column(name = "idusuario")
     private int idusuario;
     @Column(name = "idpessoa")
-    private Integer idpessoa;
-    
+    private Long idpessoa;
 
     public RegistroPessoa() {
     }
 
-    public RegistroPessoa(Integer idregistro) {
+    public RegistroPessoa(Long idregistro) {
         this.idregistro = idregistro;
     }
 
-    public RegistroPessoa(Integer idregistro, Date entrada, int idusuario) {
+    public RegistroPessoa(Long idregistro, Date entrada, int idusuario) {
         this.idregistro = idregistro;
         this.entrada = entrada;
         this.idusuario = idusuario;
     }
 
-    public Integer getIdregistro() {
+    public Long getIdregistro() {
         return idregistro;
     }
 
-    public void setIdregistro(Integer idregistro) {
-        Integer oldIdregistro = this.idregistro;
+    public void setIdregistro(Long idregistro) {
         this.idregistro = idregistro;
-        changeSupport.firePropertyChange("idregistro", oldIdregistro, idregistro);
     }
 
     public Date getEntrada() {
@@ -86,9 +79,7 @@ public class RegistroPessoa implements Serializable {
     }
 
     public void setEntrada(Date entrada) {
-        Date oldEntrada = this.entrada;
         this.entrada = entrada;
-        changeSupport.firePropertyChange("entrada", oldEntrada, entrada);
     }
 
     public Date getSaida() {
@@ -96,9 +87,7 @@ public class RegistroPessoa implements Serializable {
     }
 
     public void setSaida(Date saida) {
-        Date oldSaida = this.saida;
         this.saida = saida;
-        changeSupport.firePropertyChange("saida", oldSaida, saida);
     }
 
     public int getIdusuario() {
@@ -106,19 +95,15 @@ public class RegistroPessoa implements Serializable {
     }
 
     public void setIdusuario(int idusuario) {
-        int oldIdusuario = this.idusuario;
         this.idusuario = idusuario;
-        changeSupport.firePropertyChange("idusuario", oldIdusuario, idusuario);
     }
 
-    public Integer getIdpessoa() {
+    public Long getIdpessoa() {
         return idpessoa;
     }
 
-    public void setIdpessoa(Integer idpessoa) {
-        Integer oldIdpessoa = this.idpessoa;
+    public void setIdpessoa(Long idpessoa) {
         this.idpessoa = idpessoa;
-        changeSupport.firePropertyChange("idpessoa", oldIdpessoa, idpessoa);
     }
 
     @Override
@@ -146,12 +131,4 @@ public class RegistroPessoa implements Serializable {
         return "com.portaria.view.RegistroPessoa[ idregistro=" + idregistro + " ]";
     }
 
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        changeSupport.addPropertyChangeListener(listener);
-    }
-
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        changeSupport.removePropertyChangeListener(listener);
-    }
-    
 }

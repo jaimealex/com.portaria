@@ -5,9 +5,12 @@
  */
 package com.portaria.util;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.PersistenceException;
 
 /**
  *
@@ -20,6 +23,14 @@ public class JPAUtil {
 
     static {
         emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+    }
+
+    public static void closeEntityManager(EntityManager entityManager) {
+        try {
+            entityManager.close();
+        } catch (PersistenceException ex) {
+            Logger.getLogger(JPAUtil.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     private JPAUtil() {

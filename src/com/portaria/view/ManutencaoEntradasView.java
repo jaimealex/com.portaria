@@ -6,17 +6,12 @@
 package com.portaria.view;
 
 import com.portaria.control.EntradaController;
-import com.portaria.entity.Pessoa;
 import com.portaria.model.EntradaModel;
 import java.awt.EventQueue;
-import java.util.List;
 import javax.swing.JFrame;
-import javax.swing.ListSelectionModel;
-import javax.swing.table.TableModel;
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.ELProperty;
-import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.swingbinding.JTableBinding;
 import org.jdesktop.swingbinding.SwingBindings;
 
@@ -295,7 +290,4 @@ public class ManutencaoEntradasView extends javax.swing.JPanel {
     private javax.swing.JTextField nomeField;
     // End of variables declaration//GEN-END:variables
 
-    private void enableWidgets(boolean b) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }

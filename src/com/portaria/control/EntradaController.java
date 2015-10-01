@@ -10,7 +10,6 @@ import com.portaria.dao.PessoaDAO;
 import com.portaria.dao.UsuarioDAO;
 import com.portaria.dao.VeiculoDAO;
 import com.portaria.model.EntradaModel;
-import java.util.List;
 
 /**
  *

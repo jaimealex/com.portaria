@@ -5,6 +5,8 @@
  */
 package com.portaria.view;
 
+import com.portaria.session.SessionManager;
+
 /**
  *
  * @author visitante
@@ -40,6 +42,14 @@ public class PrincipalView extends javax.swing.JFrame {
         usuarioMenuManutencaoItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         entradaMenu.setText("Entrada");
 
@@ -118,6 +128,7 @@ public class PrincipalView extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void pessoaMenuEntradaItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pessoaMenuEntradaItemActionPerformed
@@ -133,7 +144,7 @@ public class PrincipalView extends javax.swing.JFrame {
     }//GEN-LAST:event_veiculoMenuManutencaoItemActionPerformed
 
     private void pessoaMenuManutencaoItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pessoaMenuManutencaoItemActionPerformed
-        
+
     }//GEN-LAST:event_pessoaMenuManutencaoItemActionPerformed
 
     private void usuarioMenuManutencaoItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usuarioMenuManutencaoItemActionPerformed
@@ -143,6 +154,19 @@ public class PrincipalView extends javax.swing.JFrame {
     private void usuarioMenuManutencaoItemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usuarioMenuManutencaoItemMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_usuarioMenuManutencaoItemMouseClicked
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formWindowActivated
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+        if (SessionManager.getUsuarioLogado() == null) {
+            new Thread(() -> {
+                new LoginView(this, true).setVisible(true);
+            }).start();
+        }
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments

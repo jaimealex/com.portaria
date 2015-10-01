@@ -5,8 +5,6 @@
  */
 package com.portaria.entity;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -17,7 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 /**
  *
@@ -32,14 +29,13 @@ import javax.persistence.Transient;
     @NamedQuery(name = "Pessoa.findByCpf", query = "SELECT p FROM Pessoa p WHERE p.cpf = :cpf"),
     @NamedQuery(name = "Pessoa.findByRg", query = "SELECT p FROM Pessoa p WHERE p.rg = :rg")})
 public class Pessoa implements Serializable {
-    @Transient
-    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "idpessoa")
-    private Integer idpessoa;
+    private Long idpessoa;
     @Basic(optional = false)
     @Column(name = "nome")
     private String nome;
@@ -52,24 +48,22 @@ public class Pessoa implements Serializable {
     public Pessoa() {
     }
 
-    public Pessoa(Integer idpessoa) {
+    public Pessoa(Long idpessoa) {
         this.idpessoa = idpessoa;
     }
 
-    public Pessoa(Integer idpessoa, String nome, String cpf) {
+    public Pessoa(Long idpessoa, String nome, String cpf) {
         this.idpessoa = idpessoa;
         this.nome = nome;
         this.cpf = cpf;
     }
 
-    public Integer getIdpessoa() {
+    public Long getIdpessoa() {
         return idpessoa;
     }
 
-    public void setIdpessoa(Integer idpessoa) {
-        Integer oldIdpessoa = this.idpessoa;
+    public void setIdpessoa(Long idpessoa) {
         this.idpessoa = idpessoa;
-        changeSupport.firePropertyChange("idpessoa", oldIdpessoa, idpessoa);
     }
 
     public String getNome() {
@@ -77,9 +71,7 @@ public class Pessoa implements Serializable {
     }
 
     public void setNome(String nome) {
-        String oldNome = this.nome;
         this.nome = nome;
-        changeSupport.firePropertyChange("nome", oldNome, nome);
     }
 
     public String getCpf() {
@@ -87,9 +79,7 @@ public class Pessoa implements Serializable {
     }
 
     public void setCpf(String cpf) {
-        String oldCpf = this.cpf;
         this.cpf = cpf;
-        changeSupport.firePropertyChange("cpf", oldCpf, cpf);
     }
 
     public String getRg() {
@@ -97,9 +87,7 @@ public class Pessoa implements Serializable {
     }
 
     public void setRg(String rg) {
-        String oldRg = this.rg;
         this.rg = rg;
-        changeSupport.firePropertyChange("rg", oldRg, rg);
     }
 
     @Override
@@ -127,12 +115,4 @@ public class Pessoa implements Serializable {
         return "com.portaria.view.Pessoa[ idpessoa=" + idpessoa + " ]";
     }
 
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        changeSupport.addPropertyChangeListener(listener);
-    }
-
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        changeSupport.removePropertyChangeListener(listener);
-    }
-    
 }
