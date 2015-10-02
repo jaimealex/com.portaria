@@ -36,7 +36,6 @@ import org.jdesktop.swingbinding.SwingBindings;
  */
 public class ManutencaoUsuarioView extends JPanel {
 
-    private int iKey = 0;
     private String modOption;
     private List<Usuario> list;
     private List<Usuario> usuarioList = Collections.emptyList();
@@ -134,7 +133,7 @@ public class ManutencaoUsuarioView extends JPanel {
 
     private class UsuarioTableModel extends AbstractTableModel {
 
-        private int modOption = 0;
+        private final int modOption = 0;
         private List<Usuario> usuarios;
         private final int COLUMN_COUNT = 3;
         private final String[] columnNames = {"Nome", "Login", "Senha"};
@@ -391,6 +390,7 @@ public class ManutencaoUsuarioView extends JPanel {
         newButton.setEnabled(true);
         resetText();
         disableText();
+        masterTable.clearSelection();
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
@@ -442,24 +442,20 @@ public class ManutencaoUsuarioView extends JPanel {
     
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
 
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                if (doFormValidation()) {
-                    try{
-                        IDAO dao = new UsuarioDAO();
-                        Usuario u = new Usuario();
-                        u.setIdusuario((usuarioSelecionado == null) ? null : usuarioSelecionado.getIdusuario());
-                        u.setNome(nomeField.getText());
-                        u.setLogin(loginField.getText());
-                        u.setSenha(senhaField.getText());
-                        u = (Usuario) dao.save(u);
-                        usuarioList.add(u);
-                        JOptionPane.showMessageDialog(null, "Operação executada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);     
-                    }catch (BusinessException ex){
-                        JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.OK_OPTION);
-                        JOptionPane.showMessageDialog(null, "Preencha Login ou Senha", "Erro", JOptionPane.OK_OPTION);
-                    }
+        Thread t = new Thread(() -> {
+            if (doFormValidation()) {
+                try{
+                    IDAO dao = new UsuarioDAO();
+                    Usuario u = new Usuario();
+                    u.setIdusuario((usuarioSelecionado == null) ? null : usuarioSelecionado.getIdusuario());
+                    u.setNome(nomeField.getText());
+                    u.setLogin(loginField.getText());
+                    u.setSenha(senhaField.getText());
+                    u = (Usuario) dao.save(u);
+                    usuarioList.add(u);
+                    JOptionPane.showMessageDialog(null, "Operação executada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                }catch (BusinessException ex){
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.OK_OPTION);
                 }
             }
         });
@@ -570,14 +566,12 @@ public class ManutencaoUsuarioView extends JPanel {
         //</editor-fold>
 
         /* Create and display the form */
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                JFrame frame = new JFrame();
-                frame.setContentPane(new ManutencaoUsuarioView());
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.pack();
-                frame.setVisible(true);
-            }
+        EventQueue.invokeLater(() -> {
+            JFrame frame = new JFrame();
+            frame.setContentPane(new ManutencaoUsuarioView());
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.pack();
+            frame.setVisible(true);
         });
     }
 

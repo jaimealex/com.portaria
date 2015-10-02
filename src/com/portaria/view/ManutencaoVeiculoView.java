@@ -7,16 +7,18 @@ package com.portaria.view;
 
 import com.portaria.dao.IDAO;
 import com.portaria.dao.VeiculoDAO;
-import com.portaria.entity.Usuario;
+import com.portaria.entity.Veiculo;
+import com.portaria.exception.BusinessException;
 import java.awt.EventQueue;
-import java.beans.Beans;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import java.util.List;
-import javax.persistence.RollbackException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.BeanProperty;
@@ -34,18 +36,29 @@ import org.jdesktop.swingbinding.SwingBindings;
  */
 public class ManutencaoVeiculoView extends JPanel {
     
+    private int iKey = 0;
+    private String modOption;
+    private List<Veiculo> list;
+    private List<Veiculo> veiculoList = Collections.emptyList();
+    private Veiculo veiculoSelecionado;
+    private static final String UPDATE = "update";
+    private static final String INSERT = "insert";
+    
     public ManutencaoVeiculoView() {
         initComponents();
         myInitComponents();
     }
     private void myInitComponents() {
+        
+        placaField.setEnabled(true);
+        placaField.setEditable(true);
         updateButton.setEnabled(false);
         bindingGroup = new BindingGroup();
         cancelButton.setEnabled(false);
         
         IDAO dao = new VeiculoDAO();
         veiculoList = ObservableCollections.observableList(dao.findAll());
-        masterTable.setModel(new ManutencaoUsuarioView.VeiculoTableModel(veiculoList));
+        masterTable.setModel(new ManutencaoVeiculoView.VeiculoTableModel(veiculoList));
         masterTable.setRowSelectionAllowed(true);
 
         JTableBinding jTableBinding = SwingBindings.createJTableBinding(AutoBinding.UpdateStrategy.READ_WRITE, veiculoList, masterTable);
@@ -96,8 +109,33 @@ public class ManutencaoVeiculoView extends JPanel {
 
     }
     
+    private void disableText() {
+        placaField.setEnabled(false);
+        modeloField.setEnabled(false);
+        corField.setEnabled(false);
+    }
+    
+    private void resetText() {
+        placaField.setText("");
+        modeloField.setText("");
+        corField.setText("");
+    }
+    
+    private void ableText(){
+        placaField.setEnabled(true);
+        placaField.setEditable(true);
+        placaField.setFocusable(true);
+        modeloField.setEnabled(true);
+        modeloField.setEditable(true);
+        modeloField.setFocusable(true);
+        corField.setEnabled(true);
+        corField.setEditable(true);
+        corField.setFocusable(true);
+    }
+    
     private class VeiculoTableModel extends AbstractTableModel {
 
+        private final int modOption = 0;
         private List<Veiculo> veiculos;
         private final int COLUMN_COUNT = 3;
         private final String[] columnNames = {"Placa", "Modelo", "Cor"};
@@ -171,16 +209,16 @@ public class ManutencaoVeiculoView extends JPanel {
         placaLabel = new javax.swing.JLabel();
         modeloLabel = new javax.swing.JLabel();
         corLabel = new javax.swing.JLabel();
-        placaField = new javax.swing.JTextField();
-        modeloField = new javax.swing.JTextField();
-        corField = new javax.swing.JTextField();
         saveButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
         newButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
         updateButton = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
         masterTable = new javax.swing.JTable();
+        placaField = new javax.swing.JTextField();
+        modeloField = new javax.swing.JTextField();
+        corField = new javax.swing.JTextField();
 
         FormListener formListener = new FormListener();
 
@@ -190,28 +228,10 @@ public class ManutencaoVeiculoView extends JPanel {
 
         corLabel.setText("Cor:");
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, new javax.swing.JTable(), org.jdesktop.beansbinding.ELProperty.create("${selectedElement.placa}"), placaField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceUnreadableValue("null");
-        bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, new javax.swing.JTable(), org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), placaField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
-        bindingGroup.addBinding(binding);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, new javax.swing.JTable(), org.jdesktop.beansbinding.ELProperty.create("${selectedElement.modelo}"), modeloField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceUnreadableValue("null");
-        bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, new javax.swing.JTable(), org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), modeloField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
-        bindingGroup.addBinding(binding);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, new javax.swing.JTable(), org.jdesktop.beansbinding.ELProperty.create("${selectedElement.cor}"), corField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceUnreadableValue("null");
-        bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, new javax.swing.JTable(), org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), corField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
-        bindingGroup.addBinding(binding);
-
         saveButton.setText("Salvar");
         saveButton.addActionListener(formListener);
 
-        cancelButton.setText("Recarregar");
+        cancelButton.setText("Cancelar");
         cancelButton.addActionListener(formListener);
 
         newButton.setText("Novo");
@@ -219,7 +239,7 @@ public class ManutencaoVeiculoView extends JPanel {
 
         deleteButton.setText("Deletar");
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, new javax.swing.JTable(), org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), deleteButton, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, new javax.swing.JTable(), org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), deleteButton, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
         deleteButton.addActionListener(formListener);
@@ -227,10 +247,10 @@ public class ManutencaoVeiculoView extends JPanel {
         updateButton.setText("Modificar");
         updateButton.addActionListener(formListener);
 
-        masterTable.setModel(new UsuarioTableModel());
+        masterTable.setModel(new VeiculoTableModel());
         masterTable.setFocusable(false);
         masterTable.addMouseListener(formListener);
-        jScrollPane2.setViewportView(masterTable);
+        jScrollPane1.setViewportView(masterTable);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -240,11 +260,8 @@ public class ManutencaoVeiculoView extends JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 446, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(updateButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
                         .addComponent(newButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(deleteButton)
@@ -252,17 +269,24 @@ public class ManutencaoVeiculoView extends JPanel {
                         .addComponent(cancelButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(saveButton))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(placaLabel)
+                        .addGap(18, 18, 18)
+                        .addComponent(placaField))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(placaLabel)
                             .addComponent(modeloLabel)
                             .addComponent(corLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(placaField)
                             .addComponent(modeloField)
                             .addComponent(corField))))
                 .addGap(19, 19, 19))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(22, Short.MAX_VALUE)))
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cancelButton, deleteButton, newButton, saveButton});
@@ -270,9 +294,7 @@ public class ManutencaoVeiculoView extends JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addContainerGap(158, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(placaLabel)
                     .addComponent(placaField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -292,6 +314,11 @@ public class ManutencaoVeiculoView extends JPanel {
                     .addComponent(newButton)
                     .addComponent(updateButton))
                 .addContainerGap())
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(122, Short.MAX_VALUE)))
         );
 
         bindingGroup.bind();
@@ -345,61 +372,104 @@ public class ManutencaoVeiculoView extends JPanel {
 
     @SuppressWarnings("unchecked")
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        entityManager.getTransaction().rollback();
-        entityManager.getTransaction().begin();
-        java.util.Collection data = query.getResultList();
-        for (Object entity : data) {
-            entityManager.refresh(entity);
-        }
-        list.clear();
-        list.addAll(data);
+        updateButton.setEnabled(false);
+        cancelButton.setEnabled(false);
+        saveButton.setEnabled(false);
+        newButton.setEnabled(true);
+        resetText();
+        disableText();
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         int opcao = JOptionPane.showConfirmDialog(null, "Deseja realmente excluir o registro selecionado?", "Confirmação", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
-        if(opcao == JOptionPane.OK_OPTION){
-            int[] selected = masterTable.getSelectedRows();
-            List<com.portaria.entity.Veiculo> toRemove = new ArrayList<com.portaria.entity.Veiculo>(selected.length);
-            for (int idx = 0; idx < selected.length; idx++) {
-                com.portaria.entity.Veiculo v = list.get(masterTable.convertRowIndexToModel(selected[idx]));
-                toRemove.add(v);
-                entityManager.remove(v);
-            }
-            list.removeAll(toRemove);
-        }else{
-            JOptionPane.showMessageDialog(null,"Operação cancelada!", "Informação", JOptionPane.INFORMATION_MESSAGE);
-        }
+        if (opcao == JOptionPane.OK_OPTION) {
+            Thread t = new Thread(() -> {
+                try{ 
+                    int selected = masterTable.getSelectedRow();
+                    Veiculo v = veiculoList.get(selected);
+                    IDAO dao = new VeiculoDAO();
+                    dao.remove(v);
+                    veiculoList.remove(selected);
+                    resetText();
+                }catch (BusinessException ex){
+                        JOptionPane.showMessageDialog(this, ex.getMessage(), "Erro",JOptionPane.ERROR_MESSAGE);
+                } 
+            });
+            t.start();
+        } else {
+            JOptionPane.showMessageDialog(null, "Operação cancelada!", "Informação", JOptionPane.INFORMATION_MESSAGE);
+    }                                            
+        updateButton.setEnabled(false);
+        cancelButton.setEnabled(false);
+        masterTable.setRowSelectionAllowed(true);
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
-        com.portaria.entity.Veiculo v = new com.portaria.entity.Veiculo();
-        entityManager.persist(v);
-        list.add(v);
-        int row = list.size() - 1;
+        Veiculo veiculo = new Veiculo();
+        veiculoList.add(veiculo);
+        int row = veiculoList.size() - 1;
         masterTable.setRowSelectionInterval(row, row);
         masterTable.scrollRectToVisible(masterTable.getCellRect(row, 0, true));
+        ableText();
+        saveButton.setEnabled(true);
+        masterTable.setRowSelectionAllowed(false);
+        masterTable.setCellSelectionEnabled(false);
+        masterTable.setColumnSelectionAllowed(false);
+        deleteButton.setEnabled(false);
+        updateButton.setEnabled(false);
+        cancelButton.setEnabled(true);
+        placaField.setEnabled(true);
+        placaField.setEditable(true);
     }//GEN-LAST:event_newButtonActionPerformed
     
+    private boolean doFormValidation() {
+        if ((placaField.getText().toString().isEmpty()) || (modeloField.getText().toString().isEmpty())){
+            JOptionPane.showMessageDialog(null, "Preencha Placa ou Modelo", "Erro", JOptionPane.OK_OPTION);
+            return false;
+        } else
+            return true;
+    }
+    
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
-        try {
-            entityManager.getTransaction().commit();
-            entityManager.getTransaction().begin();
-            JOptionPane.showMessageDialog(null, "Operação executada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-            cancelButton.doClick();
-        } catch (RollbackException rex) {
-            rex.printStackTrace();
-            entityManager.getTransaction().begin();
-            List<com.portaria.entity.Veiculo> merged = new ArrayList<com.portaria.entity.Veiculo>(list.size());
-            for (com.portaria.entity.Veiculo v : list) {
-                merged.add(entityManager.merge(v));
+        Thread t = new Thread(() -> {
+            if (doFormValidation()) {
+                try{
+                    IDAO dao = new VeiculoDAO();
+                    Veiculo v = new Veiculo();
+                    v.setIdveiculo((veiculoSelecionado == null) ? null : veiculoSelecionado.getIdveiculo());
+                    v.setPlaca(placaField.getText());
+                    v.setModelo(modeloField.getText());
+                    v.setCor(corField.getText());
+                    v = (Veiculo) dao.save(v);
+                    veiculoList.add(v);
+                    JOptionPane.showMessageDialog(null, "Operação executada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                }catch (BusinessException ex){
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.OK_OPTION);
+                }
             }
-            list.clear();
-            list.addAll(merged);
-        }
+        });
+        t.start();
+        disableText();
+        resetText();
+        saveButton.setEnabled(false);
+        cancelButton.setEnabled(false);
+        updateButton.setEnabled(false);
+        masterTable.setRowSelectionAllowed(true);
+        int row = masterTable.getSelectedRow();
+        veiculoList.remove(row);
+        newButton.setEnabled(true);
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
-        // TODO add your handling code here:
+        saveButton.setEnabled(true);
+        this.showSelected();
+        this.enableForm(true);
+        masterTable.setColumnSelectionAllowed(false);
+        modOption = UPDATE;
+        newButton.setEnabled(false);
+        deleteButton.setEnabled(false);
+        cancelButton.setEnabled(true);
+        ableText();
     }//GEN-LAST:event_updateButtonActionPerformed
 
     private void masterTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_masterTableMouseClicked
@@ -414,14 +484,32 @@ public class ManutencaoVeiculoView extends JPanel {
         updateButton.setEnabled(true);
     }//GEN-LAST:event_masterTableMousePressed
 
+    private void enableForm(boolean b) {
+        placaField.setEditable(true);
+        placaField.setEnabled(true);
+        modeloField.setEditable(true);
+        modeloField.setEnabled(true);
+        corField.setEditable(true);
+        corField.setEnabled(true);
+    }
 
+    private void showSelected() {
+        int[] selected = masterTable.getSelectedRows();
+        if (selected.length > 0) {
+            Veiculo v = veiculoList.get(masterTable.convertRowIndexToModel(selected[0]));
+            placaField.setText(v.getPlaca());
+            modeloField.setText(v.getModelo());
+            corField.setText(v.getCor());
+        }
+        this.enableForm(false);
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
     private javax.swing.JTextField corField;
     private javax.swing.JLabel corLabel;
     private javax.swing.JButton deleteButton;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable masterTable;
     private javax.swing.JTextField modeloField;
     private javax.swing.JLabel modeloLabel;
@@ -457,15 +545,27 @@ public class ManutencaoVeiculoView extends JPanel {
         //</editor-fold>
 
         /* Create and display the form */
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                JFrame frame = new JFrame();
-                frame.setContentPane(new ManutencaoVeiculoView());
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.pack();
-                frame.setVisible(true);
-            }
+        EventQueue.invokeLater(() -> {
+            JFrame frame = new JFrame();
+            frame.setContentPane(new ManutencaoVeiculoView());
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.pack();
+            frame.setVisible(true);
         });
     }
     
+    private class VeiculoMasterTableListSelectionListener implements ListSelectionListener {
+
+        @Override
+        public void valueChanged(ListSelectionEvent e) {
+            if (e.getValueIsAdjusting()) {
+                return;
+            }
+            int row = masterTable.getSelectedRow();
+            if (row >= 0) {
+                Veiculo v = veiculoList.get(row);
+                veiculoSelecionado = new Veiculo(v.getIdveiculo(), v.getPlaca(), v.getModelo(), v.getCor());
+            }
+        }
+    }
 }

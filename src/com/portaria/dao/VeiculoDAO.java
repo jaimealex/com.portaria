@@ -6,9 +6,11 @@
 package com.portaria.dao;
 
 import com.portaria.entity.Veiculo;
+import com.portaria.exception.BusinessException;
 import com.portaria.util.JPAUtil;
 import java.util.List;
 import javax.persistence.*;
+import org.jboss.logging.Logger;
 
 
 public class VeiculoDAO implements IDAO<Veiculo> {
@@ -20,11 +22,23 @@ public class VeiculoDAO implements IDAO<Veiculo> {
     }
 
     @Override
-    public Veiculo save(Veiculo veiculo) {
-        entityManager.getTransaction().begin();
-        Veiculo merged = entityManager.merge(veiculo);
-        entityManager.getTransaction().commit();
-        entityManager.close();
+    public Veiculo save(Veiculo veiculo) throws BusinessException{
+        Veiculo merged = null;
+        try{
+            entityManager.getTransaction().begin();
+            merged = entityManager.merge(veiculo);
+            entityManager.getTransaction().commit();
+        } catch (PersistenceException ex){
+                Logger.getLogger(VeiculoDAO.class.getName(), null).log(Logger.Level.ERROR, ex);
+                
+            try{
+                entityManager.getTransaction().rollback();
+            }catch(PersistenceException pex){
+                    Logger.getLogger(VeiculoDAO.class.getName(), null).log(Logger.Level.ERROR, pex);
+            }
+                throw new BusinessException("Erro ao salvar Veiculo" + veiculo, ex);
+        }
+        JPAUtil.closeEntityManager(entityManager);
         return merged;
     }
     
@@ -50,7 +64,12 @@ public class VeiculoDAO implements IDAO<Veiculo> {
     }
 
     public Veiculo refresh(Veiculo veiculo) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        entityManager.getTransaction().begin();
+        Veiculo v = entityManager.merge(veiculo);
+        entityManager.refresh(v);
+        entityManager.getTransaction().commit();
+        entityManager.close();
+        return v;
     }
 
 }

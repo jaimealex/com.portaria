@@ -51,9 +51,11 @@ public class Veiculo implements Serializable {
         this.idveiculo = idveiculo;
     }
 
-    public Veiculo(Long idveiculo, String placa) {
+    public Veiculo(Long idveiculo, String placa, String modelo, String cor) {
         this.idveiculo = idveiculo;
         this.placa = placa;
+        this.modelo = modelo;
+        this.cor = cor;
     }
 
     public Long getIdveiculo() {
