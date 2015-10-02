@@ -58,12 +58,16 @@ public class UsuarioDAO implements IDAO<Usuario> {
     }
     
     @Override
-    public void remove(Usuario usuario) {
-        entityManager.getTransaction().begin();
-        Usuario u = entityManager.merge(usuario);
-        entityManager.remove(u);
-        entityManager.getTransaction().commit();
-        entityManager.close();
+    public void remove(Usuario usuario) throws BusinessException{
+       try{
+            entityManager.getTransaction().begin();
+            usuario = entityManager.merge(usuario);
+            entityManager.remove(usuario);
+            entityManager.getTransaction().commit();
+        } catch (PersistenceException ex) {
+                throw new BusinessException("Erro ao remover o registro: " + usuario, ex);
+        }
+       JPAUtil.closeEntityManager(entityManager);
     }
 
     @Override

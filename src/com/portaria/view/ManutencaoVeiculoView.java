@@ -378,6 +378,7 @@ public class ManutencaoVeiculoView extends JPanel {
         newButton.setEnabled(true);
         resetText();
         disableText();
+        masterTable.clearSelection();
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
