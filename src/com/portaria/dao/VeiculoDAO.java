@@ -9,67 +9,80 @@ import com.portaria.entity.Veiculo;
 import com.portaria.exception.BusinessException;
 import com.portaria.util.JPAUtil;
 import java.util.List;
-import javax.persistence.*;
-import org.jboss.logging.Logger;
+import javax.persistence.EntityManager;
+import javax.persistence.RollbackException;
 
-
+/**
+ *
+ * @author winston.sonnesen
+ */
 public class VeiculoDAO implements IDAO<Veiculo> {
 
-    private final EntityManager entityManager;
+    private final EntityManager manager;
 
+    /**
+     * Construtor da classe
+     */
     public VeiculoDAO() {
-        entityManager = JPAUtil.getEntityManager();
+        manager = JPAUtil.getEntityManager();
     }
 
-    @Override
-    public Veiculo save(Veiculo veiculo) throws BusinessException{
-        Veiculo merged = null;
-        try{
-            entityManager.getTransaction().begin();
-            merged = entityManager.merge(veiculo);
-            entityManager.getTransaction().commit();
-        } catch (PersistenceException ex){
-                Logger.getLogger(VeiculoDAO.class.getName(), null).log(Logger.Level.ERROR, ex);
-                
-            try{
-                entityManager.getTransaction().rollback();
-            }catch(PersistenceException pex){
-                    Logger.getLogger(VeiculoDAO.class.getName(), null).log(Logger.Level.ERROR, pex);
-            }
-                throw new BusinessException("Erro ao salvar Veiculo" + veiculo, ex);
-        }
-        JPAUtil.closeEntityManager(entityManager);
-        return merged;
-    }
-    
-    @Override
-    public void remove(Veiculo veiculo) {
-        entityManager.getTransaction().begin();
-        Veiculo v = entityManager.merge(veiculo);
-        entityManager.remove(v);
-        entityManager.getTransaction().commit();
-        entityManager.close();
-    }
-
-    @Override
-    public Veiculo findById(Long codigo) {
-        return entityManager.find(Veiculo.class, codigo);
-    }
-
+    /**
+     *
+     * @return
+     */
     @Override
     public List<Veiculo> findAll() {
-        TypedQuery<Veiculo> query = entityManager.createNamedQuery("Veiculo.findAll", Veiculo.class);
-        List<Veiculo> veiculos = query.getResultList();
+        List<Veiculo> veiculos = manager.createNamedQuery("Veiculo.findAll", Veiculo.class).getResultList();
+        manager.close();
         return veiculos;
     }
 
-    public Veiculo refresh(Veiculo veiculo) {
-        entityManager.getTransaction().begin();
-        Veiculo v = entityManager.merge(veiculo);
-        entityManager.refresh(v);
-        entityManager.getTransaction().commit();
-        entityManager.close();
-        return v;
+    /**
+     *
+     * @param veiculo
+     * @throws BusinessException
+     */
+    @Override
+    public Veiculo save(Veiculo veiculo) throws BusinessException {
+        try {
+            manager.getTransaction().begin();
+            if (!manager.contains(veiculo)) {
+                veiculo = manager.merge(veiculo);
+            }
+            manager.persist(veiculo);
+            manager.getTransaction().commit();
+        } catch (RollbackException e) {
+            throw new BusinessException("Erro ao salvar registro: " + veiculo, e);
+        } finally {
+            manager.close();
+        }
+        return veiculo;
+    }
+
+    @Override
+    public void remove(Veiculo veiculo) throws BusinessException {
+        try {
+            manager.getTransaction().begin();
+            manager.remove(manager.merge(veiculo));
+            manager.getTransaction().commit();
+        } catch (RollbackException e) {
+            throw new BusinessException("Erro ao remover registro: " + veiculo, e);
+        } finally {
+            manager.close();
+        }
+    }
+
+    /**
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public Veiculo findById(Long id) {
+        Veiculo veiculo = manager.find(Veiculo.class, id);
+        manager.close();
+        return veiculo;
     }
 
 }
