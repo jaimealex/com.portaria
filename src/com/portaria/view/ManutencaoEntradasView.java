@@ -21,8 +21,8 @@ import org.jdesktop.swingbinding.SwingBindings;
  */
 public class ManutencaoEntradasView extends javax.swing.JPanel {
     private BindingGroup bindingGroup;
-    private EntradaModel model = new EntradaModel();
-    private EntradaController controller = new EntradaController(model);
+    private final EntradaModel model = new EntradaModel();
+    private final EntradaController controller = new EntradaController(model);
     //List<Pessoa> list;
     /**
      * Creates new form ManutencaoEntradasView2
@@ -62,6 +62,7 @@ public class ManutencaoEntradasView extends javax.swing.JPanel {
             }
         });
     }
+
     
 
     public ManutencaoEntradasView() {
@@ -127,6 +128,10 @@ public class ManutencaoEntradasView extends javax.swing.JPanel {
         jScrollPane2 = new javax.swing.JScrollPane();
         masterTableAll = new javax.swing.JTable();
         addButton = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        placaField = new javax.swing.JTextField();
+        modeloField = new javax.swing.JTextField();
+        corField = new javax.swing.JTextField();
 
         masterTableSelected.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -197,38 +202,57 @@ public class ManutencaoEntradasView extends javax.swing.JPanel {
             }
         });
 
+        jLabel3.setText("Placa:");
+
+        placaField.setText(" ");
+        placaField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                placaFieldKeyReleased(evt);
+            }
+        });
+
+        modeloField.setText(" ");
+
+        corField.setText(" ");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cpfField, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(nomeField, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(29, 29, 29)
+                        .addComponent(addButton)
+                        .addContainerGap(161, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cpfField, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(nomeField, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
-                .addComponent(addButton)
-                .addContainerGap(161, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(placaField, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(modeloField)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(corField, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(64, 64, 64)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(nomeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
@@ -237,7 +261,13 @@ public class ManutencaoEntradasView extends javax.swing.JPanel {
                     .addComponent(addButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(70, 70, 70))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(placaField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(modeloField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(corField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(33, 33, 33))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -258,7 +288,7 @@ public class ManutencaoEntradasView extends javax.swing.JPanel {
     }//GEN-LAST:event_nomeFieldActionPerformed
 
     private void nomeFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nomeFieldKeyReleased
-        if(nomeField.getText().length() > 1) { //mudar valor minimo para um valor maior
+        if(nomeField.getText().length() > 3) { //mudar valor minimo para um valor maior
             model.setFiltroPessoaByNome(nomeField.getText());
             
         }
@@ -268,26 +298,51 @@ public class ManutencaoEntradasView extends javax.swing.JPanel {
     }//GEN-LAST:event_nomeFieldKeyReleased
 
     private void cpfFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cpfFieldKeyReleased
-        if(nomeField.getText().length() > 1) { //mudar valor minimo para um valor maior
+        if(cpfField.getText().length() > 3) { //mudar valor minimo para um valor maior
             model.setFiltroPessoaByCpf(cpfField.getText());
             
         }
-        if(nomeField.getText().length() == 0) {
+        if(cpfField.getText().length() == 0) {
             model.setFiltroPessoaByNome(null);            
         }     
     }//GEN-LAST:event_cpfFieldKeyReleased
 
+    private void placaFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_placaFieldKeyReleased
+        boolean lOk = false;
+        if(placaField.getText().length() > 3) { //mudar valor minimo para um valor maior
+            model.setFiltroVeiculoByPlaca(placaField.getText());
+            
+        }
+        if(placaField.getText().length() == 0) {
+            model.setFiltroVeiculoByPlaca(null);            
+        }  
+  
+        showVeiculo();
+    }//GEN-LAST:event_placaFieldKeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
+    private javax.swing.JTextField corField;
     private javax.swing.JTextField cpfField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable masterTableAll;
     private javax.swing.JTable masterTableSelected;
+    private javax.swing.JTextField modeloField;
     private javax.swing.JTextField nomeField;
+    private javax.swing.JTextField placaField;
     // End of variables declaration//GEN-END:variables
+
+    private void showVeiculo() {
+        modeloField.setText(model.getVeiculo().getModelo());
+        corField.setText(model.getVeiculo().getCor());
+        if (model.getVeiculo().getIdveiculo()!= null){
+            placaField.setText(model.getVeiculo().getPlaca());
+        }
+    }
 
 }

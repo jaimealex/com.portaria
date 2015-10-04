@@ -11,6 +11,7 @@ import com.portaria.util.JPAUtil;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.RollbackException;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -19,6 +20,7 @@ import javax.persistence.RollbackException;
 public class VeiculoDAO implements IDAO<Veiculo> {
 
     private final EntityManager manager;
+    
 
     /**
      * Construtor da classe
@@ -83,6 +85,12 @@ public class VeiculoDAO implements IDAO<Veiculo> {
         Veiculo veiculo = manager.find(Veiculo.class, id);
         manager.close();
         return veiculo;
+    }    
+    public List<Veiculo> findByPlaca(String placa) {
+        TypedQuery<Veiculo> query = manager.createNamedQuery("Veiculo.findByPlaca", Veiculo.class)
+                .setParameter("placa", "%" + placa + "%");
+        List<Veiculo> veiculos = query.getResultList();
+        JPAUtil.closeEntityManager(manager);
+        return veiculos;
     }
-
 }

@@ -6,6 +6,7 @@
 package com.portaria.model;
 
 import com.portaria.dao.PessoaDAO;
+import com.portaria.dao.VeiculoDAO;
 import com.portaria.entity.Pessoa;
 import com.portaria.entity.Usuario;
 import com.portaria.entity.Veiculo;
@@ -104,22 +105,38 @@ public class EntradaModel extends BindableModel {
         }
 
     }
-    public boolean setFiltroPessoaByCpf(String s) {
+    public boolean setFiltroPessoaByCpf(String s) {        
         PessoaDAO dao = new PessoaDAO();
         pessoas.clear();
         if (s == null){
             pessoas.addAll(dao.findAll());
+            
         }
         else {
             pessoas.addAll(dao.findByCpf(s));
-            
         }
+            
+        
         if (pessoas.size() > 0) {
             return true;
         } else {
             return false;
         }
 
+    }
+    public boolean setFiltroVeiculoByPlaca(String s) {
+        VeiculoDAO dao = new VeiculoDAO();
+        if (s == null){
+            return false;
+        }
+        List<Veiculo> veiculos = dao.findByPlaca(s);
+        
+        if(veiculos.size() == 1){
+            veiculo = veiculos.get(0);
+            return true;
+        }
+        return false;
+        
     }
 
 
