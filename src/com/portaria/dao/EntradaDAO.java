@@ -5,7 +5,7 @@
  */
 package com.portaria.dao;
 
-import com.portaria.entity.Pessoa;
+import com.portaria.entity.Entrada;
 import com.portaria.exception.BusinessException;
 import com.portaria.util.JPAUtil;
 import java.util.List;
@@ -14,73 +14,73 @@ import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 import org.jboss.logging.Logger;
 
-public class PessoaDAO implements IDAO<Pessoa> {
+public class EntradaDAO implements IDAO<Entrada> {
 
     private final EntityManager entityManager;
 
-    public PessoaDAO() {
+    public EntradaDAO() {
         entityManager = JPAUtil.getEntityManager();
     }
 
     @Override
-    public void remove(Pessoa pessoa) throws BusinessException {
+    public void remove(Entrada entrada) throws BusinessException {
         try {
             entityManager.getTransaction().begin();
-            pessoa = entityManager.merge(pessoa);
-            entityManager.remove(pessoa);
+            entrada = entityManager.merge(entrada);
+            entityManager.remove(entrada);
             entityManager.getTransaction().commit();
         } catch (PersistenceException ex) {
-            throw new BusinessException("Erro ao remover o registro: " + pessoa, ex);
+            throw new BusinessException("Erro ao remover o registro: " + entrada, ex);
         }
         JPAUtil.closeEntityManager(entityManager);
     }
 
     @Override
-    public Pessoa findById(Long codigo) {
-        return entityManager.find(Pessoa.class, codigo);
+    public Entrada findById(Long codigo) {
+        return entityManager.find(Entrada.class, codigo);
     }
 
-    public List<Pessoa> findByCpf(String cpf) {
+    public List<Entrada> findByCpf(String cpf) {
         System.out.println(cpf);
-        TypedQuery<Pessoa> query = entityManager.createNamedQuery("Pessoa.findByCpf", Pessoa.class)
+        TypedQuery<Entrada> query = entityManager.createNamedQuery("Entrada.findByCpf", Entrada.class)
                 .setParameter("cpf", "%" + cpf + "%");
-        List<Pessoa> pessoas = query.getResultList();
+        List<Entrada> entradas = query.getResultList();
         JPAUtil.closeEntityManager(entityManager);
-        return pessoas;
+        return entradas;
     }
 
-    public List<Pessoa> findByNome(String nome) {
+    public List<Entrada> findByNome(String nome) {
         System.out.println(nome);
-        TypedQuery<Pessoa> query = entityManager.createNamedQuery("Pessoa.findByNome", Pessoa.class)
+        TypedQuery<Entrada> query = entityManager.createNamedQuery("Entrada.findByNome", Entrada.class)
                 .setParameter("nome", "%" + nome + "%");
-        List<Pessoa> pessoas = query.getResultList();
+        List<Entrada> entradas = query.getResultList();
         JPAUtil.closeEntityManager(entityManager);
-        return pessoas;
+        return entradas;
     }
 
     @Override
-    public List<Pessoa> findAll() {
-        TypedQuery<Pessoa> query = entityManager.createNamedQuery("Pessoa.findAll", Pessoa.class);
-        List<Pessoa> pessoas = query.getResultList();
+    public List<Entrada> findAll() {
+        TypedQuery<Entrada> query = entityManager.createNamedQuery("Entrada.findAll", Entrada.class);
+        List<Entrada> entradas = query.getResultList();
         JPAUtil.closeEntityManager(entityManager);
-        return pessoas;
+        return entradas;
     }
 
     @Override
-    public Pessoa save(Pessoa pessoa) throws BusinessException {
-        Pessoa merged = null;
+    public Entrada save(Entrada entrada) throws BusinessException {
+        Entrada merged = null;
         try {
             entityManager.getTransaction().begin();
-            merged = entityManager.merge(pessoa);
+            merged = entityManager.merge(entrada);
             entityManager.getTransaction().commit();
         } catch (PersistenceException ex) {
-            Logger.getLogger(PessoaDAO.class.getName(), null).log(Logger.Level.ERROR, ex);
+            Logger.getLogger(EntradaDAO.class.getName(), null).log(Logger.Level.ERROR, ex);
             try {
                 entityManager.getTransaction().rollback();
             } catch (PersistenceException pex) {
-                Logger.getLogger(PessoaDAO.class.getName(), null).log(Logger.Level.ERROR, pex);
+                Logger.getLogger(EntradaDAO.class.getName(), null).log(Logger.Level.ERROR, pex);
             }
-            throw new BusinessException("Erro ao salvar o usuario " + pessoa, ex);
+            throw new BusinessException("Erro ao salvar o usuario " + entrada, ex);
         }
 
         JPAUtil.closeEntityManager(entityManager);

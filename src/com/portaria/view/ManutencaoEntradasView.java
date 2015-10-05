@@ -205,6 +205,11 @@ public class ManutencaoEntradasView extends javax.swing.JPanel {
         jLabel3.setText("Placa:");
 
         placaField.setText(" ");
+        placaField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                placaFieldActionPerformed(evt);
+            }
+        });
         placaField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 placaFieldKeyReleased(evt);
@@ -319,6 +324,10 @@ public class ManutencaoEntradasView extends javax.swing.JPanel {
   
         showVeiculo();
     }//GEN-LAST:event_placaFieldKeyReleased
+
+    private void placaFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_placaFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_placaFieldActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

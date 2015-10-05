@@ -87,6 +87,7 @@ public class VeiculoDAO implements IDAO<Veiculo> {
         return veiculo;
     }    
     public List<Veiculo> findByPlaca(String placa) {
+        System.out.println("placa= " + placa);
         TypedQuery<Veiculo> query = manager.createNamedQuery("Veiculo.findByPlaca", Veiculo.class)
                 .setParameter("placa", "%" + placa + "%");
         List<Veiculo> veiculos = query.getResultList();

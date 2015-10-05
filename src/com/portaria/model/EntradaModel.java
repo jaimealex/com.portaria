@@ -5,13 +5,19 @@
  */
 package com.portaria.model;
 
+import com.portaria.dao.EntradaDAO;
 import com.portaria.dao.PessoaDAO;
 import com.portaria.dao.VeiculoDAO;
 import com.portaria.entity.Pessoa;
 import com.portaria.entity.Usuario;
 import com.portaria.entity.Veiculo;
+import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
+import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import org.eclipse.persistence.jpa.jpql.parser.DateTime;
 import org.jdesktop.observablecollections.ObservableCollections;
 
 /**
@@ -24,6 +30,7 @@ public class EntradaModel extends BindableModel {
     private Usuario usuario;
     private Veiculo veiculo;
     private Pessoa pessoa;
+    
     private List<Pessoa> pessoas;
     private List<Pessoa> pessoasSelecionadas;
 
@@ -135,10 +142,29 @@ public class EntradaModel extends BindableModel {
             veiculo = veiculos.get(0);
             return true;
         }
+        
         return false;
         
     }
 
+    private String getDateTime() {
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Date date = new Date();
+        return dateFormat.format(date);
+    }
+
+
+    public void salvaEntrada() {
+        String dt = getDateTime();
+        Entrada entrada = new Entrada();
+        
+        EntradaDAO dao = new EntradaDAO();
+        entrada.
+        entrada.setPessoaList(pessoasSelecionadas);
+        dao.save(entrada)
+        
+        
+    }
 
 //    /**
 //     * 
