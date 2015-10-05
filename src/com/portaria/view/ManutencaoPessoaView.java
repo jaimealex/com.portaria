@@ -11,6 +11,7 @@ import com.portaria.exception.BusinessException;
 
 import java.awt.EventQueue;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 
 import java.util.List;
@@ -245,6 +246,9 @@ public class ManutencaoPessoaView extends JPanel {
         public void keyPressed(java.awt.event.KeyEvent evt) {
             if (evt.getSource() == masterTable) {
                 ManutencaoPessoaView.this.masterTableKeyPressed(evt);
+            }
+            else if (evt.getSource() == nomeField) {
+                ManutencaoPessoaView.this.nomeFieldKeyPressed(evt);
             }
         }
 
@@ -502,7 +506,6 @@ public class ManutencaoPessoaView extends JPanel {
             list.clear();
             list.addAll(dao.findAll());
             searchBt = false;
-
         }
 
     }//GEN-LAST:event_srchButtonActionPerformed
@@ -513,7 +516,6 @@ public class ManutencaoPessoaView extends JPanel {
             cpfField.setText("");
             PessoaDAO dao = new PessoaDAO();
             list.clear();
-            erroooooooooooooooooooooooooooooooooooooooooooooo
             list.addAll(dao.findByNome(nomeField.getText()));
         }
         
@@ -539,6 +541,10 @@ public class ManutencaoPessoaView extends JPanel {
     private void masterTableKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_masterTableKeyReleased
         this.showSelected();
     }//GEN-LAST:event_masterTableKeyReleased
+
+    private void nomeFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nomeFieldKeyPressed
+
+    }//GEN-LAST:event_nomeFieldKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
