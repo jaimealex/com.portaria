@@ -513,6 +513,7 @@ public class ManutencaoPessoaView extends JPanel {
             cpfField.setText("");
             PessoaDAO dao = new PessoaDAO();
             list.clear();
+            erroooooooooooooooooooooooooooooooooooooooooooooo
             list.addAll(dao.findByNome(nomeField.getText()));
         }
         
