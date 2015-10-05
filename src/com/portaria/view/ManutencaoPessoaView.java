@@ -7,12 +7,15 @@ package com.portaria.view;
 
 import com.portaria.dao.PessoaDAO;
 import com.portaria.entity.Pessoa;
+import com.portaria.exception.BusinessException;
 
 import java.awt.EventQueue;
 import java.util.ArrayList;
 import java.util.Collections;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -30,10 +33,11 @@ import org.jdesktop.swingbinding.SwingBindings;
  */
 public class ManutencaoPessoaView extends JPanel {
 
-    private int iKey;
+    
     private Pessoa p;
     private boolean searchBt;
     private List<Pessoa> list = Collections.emptyList();
+    private Long iKey;
     
 
     public ManutencaoPessoaView() {
@@ -354,7 +358,7 @@ public class ManutencaoPessoaView extends JPanel {
             cpfField.setText(p.getCpf());
             nomeField.setText(p.getNome());
             rgField.setText(p.getRg());
-            //iKey = p.getIdpessoa();
+            iKey = p.getIdpessoa();
         }
         this.enableForm(false);
         searchBt = false;
@@ -413,7 +417,7 @@ public class ManutencaoPessoaView extends JPanel {
         cpfField.setText("");
         nomeField.setText("");
         rgField.setText("");
-        iKey = 0;
+        iKey = 0L;
         this.enableForm(true);
 
 
@@ -424,11 +428,15 @@ public class ManutencaoPessoaView extends JPanel {
             
         Pessoa altP = new Pessoa();
         PessoaDAO dao = new PessoaDAO();
-        //altP.setIdpessoa(iKey);
+        altP.setIdpessoa(iKey);
         altP.setCpf(cpfField.getText());
         altP.setNome(nomeField.getText());
         altP.setRg(rgField.getText());
-        //altP = dao.save(altP);
+        try {
+            altP = dao.save(altP);
+        } catch (BusinessException ex) {
+            Logger.getLogger(ManutencaoPessoaView.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
 
         if (iKey == 0) {
@@ -505,7 +513,7 @@ public class ManutencaoPessoaView extends JPanel {
             cpfField.setText("");
             PessoaDAO dao = new PessoaDAO();
             list.clear();
-            //list.addAll(dao.findByName(nomeField.getText()));
+            list.addAll(dao.findByNome(nomeField.getText()));
         }
         
     }//GEN-LAST:event_nomeFieldKeyReleased
