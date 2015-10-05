@@ -512,9 +512,13 @@ public class ManutencaoPessoaView extends JPanel {
         if (searchBt == true) {
             cpfField.setText("");
             PessoaDAO dao = new PessoaDAO();
-            list.clear();
-            erroooooooooooooooooooooooooooooooooooooooooooooo
-            list.addAll(dao.findByNome(nomeField.getText()));
+            list.clear();            
+            if (nomeField.getText() == ""){
+                list.addAll(dao.findAll());
+            }
+            else {                
+                list.addAll(dao.findByNome(nomeField.getText()));
+            }
         }
         
     }//GEN-LAST:event_nomeFieldKeyReleased
@@ -525,6 +529,12 @@ public class ManutencaoPessoaView extends JPanel {
             PessoaDAO dao = new PessoaDAO();
             list.clear();
             list.addAll(dao.findByCpf(cpfField.getText()));
+            if (cpfField.getText() == ""){
+                list.addAll(dao.findAll());
+            }
+            else {                
+                list.addAll(dao.findByCpf(cpfField.getText()));
+            }
         }
     }//GEN-LAST:event_cpfFieldKeyReleased
 
