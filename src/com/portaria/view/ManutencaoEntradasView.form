@@ -45,6 +45,8 @@
                               <Component id="corField" min="-2" pref="86" max="-2" attributes="0"/>
                           </Group>
                       </Group>
+                      <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
+                      <Component id="saveButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -66,14 +68,22 @@
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jScrollPane1" min="-2" pref="137" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="placaField" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="modeloField" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="corField" alignment="3" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="placaField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="modeloField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="corField" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="saveButton" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
+                  </Group>
               </Group>
-              <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -192,6 +202,14 @@
       <Properties>
         <Property name="text" type="java.lang.String" value=" "/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="saveButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Salva"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saveButtonActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

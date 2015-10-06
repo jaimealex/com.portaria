@@ -44,6 +44,7 @@ public class Pessoa implements Serializable {
     private String cpf;
     @Column(name = "RG")
     private String rg;
+    
 
     public Pessoa() {
     }

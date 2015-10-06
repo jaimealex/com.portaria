@@ -5,18 +5,22 @@
  */
 package com.portaria.model;
 
-import com.portaria.dao.EntradaDAO;
+import com.portaria.dao.RegistroPessoaDAO;
 import com.portaria.dao.PessoaDAO;
 import com.portaria.dao.VeiculoDAO;
 import com.portaria.entity.Pessoa;
+import com.portaria.entity.RegistroPessoa;
 import com.portaria.entity.Usuario;
 import com.portaria.entity.Veiculo;
+import com.portaria.exception.BusinessException;
 import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
 import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.eclipse.persistence.jpa.jpql.parser.DateTime;
 import org.jdesktop.observablecollections.ObservableCollections;
 
@@ -147,21 +151,26 @@ public class EntradaModel extends BindableModel {
         
     }
 
-    private String getDateTime() {
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        Date date = new Date();
-        return dateFormat.format(date);
-    }
-
-
+ 
     public void salvaEntrada() {
-        String dt = getDateTime();
-        Entrada entrada = new Entrada();
         
-        EntradaDAO dao = new EntradaDAO();
-        entrada.
-        entrada.setPessoaList(pessoasSelecionadas);
-        dao.save(entrada)
+        Date dt = new Date();        
+        RegistroPessoa rp = new RegistroPessoa();
+        
+        RegistroPessoaDAO dao = new RegistroPessoaDAO();
+        
+        for(Pessoa p: pessoasSelecionadas) {
+            rp.setIdpessoa(p.getIdpessoa());
+            rp.setEntrada(dt);
+            rp.setIdusuario(1); //to do remover usr fixo
+            try {
+                dao.save(rp);
+            } catch (BusinessException ex) {
+                Logger.getLogger(EntradaModel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
+        
         
         
     }

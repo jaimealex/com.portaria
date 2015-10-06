@@ -132,6 +132,7 @@ public class ManutencaoEntradasView extends javax.swing.JPanel {
         placaField = new javax.swing.JTextField();
         modeloField = new javax.swing.JTextField();
         corField = new javax.swing.JTextField();
+        saveButton = new javax.swing.JButton();
 
         masterTableSelected.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -220,6 +221,13 @@ public class ManutencaoEntradasView extends javax.swing.JPanel {
 
         corField.setText(" ");
 
+        saveButton.setText("Salva");
+        saveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -250,6 +258,8 @@ public class ManutencaoEntradasView extends javax.swing.JPanel {
                                 .addComponent(modeloField)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(corField, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(41, 41, 41)
+                        .addComponent(saveButton)
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -266,13 +276,18 @@ public class ManutencaoEntradasView extends javax.swing.JPanel {
                     .addComponent(addButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(placaField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(modeloField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(corField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(33, 33, 33))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(placaField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(modeloField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(corField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(33, 33, 33))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(saveButton)
+                        .addGap(42, 42, 42))))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -329,6 +344,10 @@ public class ManutencaoEntradasView extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_placaFieldActionPerformed
 
+    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
+        model.salvaEntrada();
+    }//GEN-LAST:event_saveButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
@@ -344,6 +363,7 @@ public class ManutencaoEntradasView extends javax.swing.JPanel {
     private javax.swing.JTextField modeloField;
     private javax.swing.JTextField nomeField;
     private javax.swing.JTextField placaField;
+    private javax.swing.JButton saveButton;
     // End of variables declaration//GEN-END:variables
 
     private void showVeiculo() {
