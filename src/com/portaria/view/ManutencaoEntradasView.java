@@ -369,7 +369,7 @@ public class ManutencaoEntradasView extends javax.swing.JPanel {
 
     private void placaFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_placaFieldKeyReleased
         boolean lOk = false;
-        if(placaField.getText().length() > 3) { //mudar valor minimo para um valor maior
+        if(placaField.getText().length() > 1) { //mudar valor minimo para um valor maior
             model.setFiltroVeiculoByPlaca(placaField.getText());
             
         }
@@ -379,7 +379,12 @@ public class ManutencaoEntradasView extends javax.swing.JPanel {
   
         showVeiculo();
     }//GEN-LAST:event_placaFieldKeyReleased
-
+    private void placaFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_placaFieldFocusLost
+        if (model.getVeiculo().getIdveiculo() != null) {
+            placaField.setText(model.getVeiculo().getPlaca());
+        }
+    }
+ 
     private void placaFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_placaFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_placaFieldActionPerformed
@@ -436,9 +441,9 @@ public class ManutencaoEntradasView extends javax.swing.JPanel {
     private void showVeiculo() {
         modeloField.setText(model.getVeiculo().getModelo());
         corField.setText(model.getVeiculo().getCor());
-        if (model.getVeiculo().getIdveiculo()!= null){
+        /*if (model.getVeiculo().getIdveiculo()!= null){
             placaField.setText(model.getVeiculo().getPlaca());
-        }
+        }*/
     }
 
 }
