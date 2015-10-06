@@ -294,7 +294,7 @@ public class ManutencaoEntradasView extends javax.swing.JPanel {
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         int row = masterTableAll.getSelectedRow();
         System.out.println(row);
-        if (row > 0) {            
+        if (row >= 0) {            
             model.movePessoa(row);
         }
     }//GEN-LAST:event_addButtonActionPerformed

@@ -155,11 +155,13 @@ public class EntradaModel extends BindableModel {
     public void salvaEntrada() {
         
         Date dt = new Date();        
-        RegistroPessoa rp = new RegistroPessoa();
         
-        RegistroPessoaDAO dao = new RegistroPessoaDAO();
+        
+        
         
         for(Pessoa p: pessoasSelecionadas) {
+            RegistroPessoaDAO dao = new RegistroPessoaDAO();
+            RegistroPessoa rp = new RegistroPessoa();
             rp.setIdpessoa(p.getIdpessoa());
             rp.setEntrada(dt);
             rp.setIdusuario(1); //to do remover usr fixo
