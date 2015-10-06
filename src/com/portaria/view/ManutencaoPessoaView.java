@@ -11,7 +11,6 @@ import com.portaria.exception.BusinessException;
 
 import java.awt.EventQueue;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
 import java.util.List;
@@ -516,7 +515,12 @@ public class ManutencaoPessoaView extends JPanel {
             cpfField.setText("");
             PessoaDAO dao = new PessoaDAO();
             list.clear();
-            list.addAll(dao.findByNome(nomeField.getText()));
+            if (nomeField.getText() == ""){
+                list.addAll(dao.findAll());
+            }
+            else {                
+                list.addAll(dao.findByNome(nomeField.getText()));
+            }
         }
         
     }//GEN-LAST:event_nomeFieldKeyReleased
@@ -526,7 +530,12 @@ public class ManutencaoPessoaView extends JPanel {
             nomeField.setText("");
             PessoaDAO dao = new PessoaDAO();
             list.clear();
-            list.addAll(dao.findByCpf(cpfField.getText()));
+            if (cpfField.getText() == ""){
+                list.addAll(dao.findAll());
+            }
+            else {                
+                list.addAll(dao.findByCpf(cpfField.getText()));
+            }
         }
     }//GEN-LAST:event_cpfFieldKeyReleased
 
@@ -596,14 +605,12 @@ public class ManutencaoPessoaView extends JPanel {
         //</editor-fold>
 
         /* Create and display the form */
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                JFrame frame = new JFrame();
-                frame.setContentPane(new ManutencaoPessoaView());
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.pack();
-                frame.setVisible(true);
-            }
+        EventQueue.invokeLater(() -> {
+            JFrame frame = new JFrame();
+            frame.setContentPane(new ManutencaoPessoaView());
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.pack();
+            frame.setVisible(true);
         });
     }
 
