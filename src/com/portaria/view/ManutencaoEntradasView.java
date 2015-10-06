@@ -375,8 +375,7 @@ public class ManutencaoEntradasView extends javax.swing.JPanel {
         }
         if(placaField.getText().length() == 0) {
             model.setFiltroVeiculoByPlaca(null);            
-        }  
-  
+        }
         showVeiculo();
     }//GEN-LAST:event_placaFieldKeyReleased
 
@@ -404,7 +403,14 @@ public class ManutencaoEntradasView extends javax.swing.JPanel {
     }//GEN-LAST:event_addButtonClientActionPerformed
 
     private void addButtonVehActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonVehActionPerformed
-        // TODO add your handling code here:
+        EventQueue.invokeLater(() -> {
+            JFrame frame = new JFrame();
+            frame.setContentPane(new ManutencaoVeiculoView());
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            frame.pack();
+            frame.setVisible(true);
+            frame.setLocationRelativeTo(null);
+        });
     }//GEN-LAST:event_addButtonVehActionPerformed
 
     private void placaFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_placaFieldFocusLost
