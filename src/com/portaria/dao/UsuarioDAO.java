@@ -76,7 +76,7 @@ public class UsuarioDAO implements IDAO<Usuario> {
     }
 
     public Usuario findByLoginSenha(String login, String senha) {
-        TypedQuery<Usuario> query = entityManager.createQuery("Usuario.findByLoginSenha", Usuario.class)
+        TypedQuery<Usuario> query = entityManager.createNamedQuery("Usuario.findByLoginSenha", Usuario.class)
                 .setParameter("login", login)
                 .setParameter("senha", senha);
         Usuario usuario = query.getSingleResult();
