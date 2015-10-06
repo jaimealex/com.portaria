@@ -5,6 +5,7 @@
  */
 package com.portaria.view;
 
+import com.portaria.control.EntradaController;
 import com.portaria.control.VeiculoController;
 import com.portaria.exception.BusinessException;
 import com.portaria.model.VeiculoModel;
@@ -201,4 +202,8 @@ public class VeiculoForm extends javax.swing.JDialog {
     private javax.swing.JTextField placaField;
     private javax.swing.JButton saveButton;
     // End of variables declaration//GEN-END:variables
+
+    void setController(EntradaController controller) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

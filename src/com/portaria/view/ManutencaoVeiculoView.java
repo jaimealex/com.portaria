@@ -47,7 +47,6 @@ public class ManutencaoVeiculoView extends javax.swing.JFrame {
         initComponents();
         controller.carregarVeiculos();
         doBindings();
-
     }
 
     private void doBindings() {
