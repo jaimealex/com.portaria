@@ -210,6 +210,11 @@ public class ManutencaoEntradasView extends javax.swing.JPanel {
         jLabel3.setText("Placa:");
 
         placaField.setText(" ");
+        placaField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                placaFieldFocusLost(evt);
+            }
+        });
         placaField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 placaFieldActionPerformed(evt);
@@ -401,6 +406,10 @@ public class ManutencaoEntradasView extends javax.swing.JPanel {
     private void addButtonVehActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonVehActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_addButtonVehActionPerformed
+
+    private void placaFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_placaFieldFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_placaFieldFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
