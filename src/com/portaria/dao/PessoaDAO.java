@@ -50,7 +50,6 @@ public class PessoaDAO implements IDAO<Pessoa> {
     }
 
     public List<Pessoa> findByNome(String nome) {
-        System.out.println(nome);
         TypedQuery<Pessoa> query = entityManager.createNamedQuery("Pessoa.findByNome", Pessoa.class)
                 .setParameter("nome", "%" + nome + "%");
         List<Pessoa> pessoas = query.getResultList();
