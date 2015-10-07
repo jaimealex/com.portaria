@@ -5,6 +5,7 @@
  */
 package com.portaria.view;
 
+import com.portaria.dao.IDAO;
 import com.portaria.dao.PessoaDAO;
 import com.portaria.entity.Pessoa;
 import com.portaria.exception.BusinessException;
@@ -33,7 +34,6 @@ import org.jdesktop.swingbinding.SwingBindings;
  */
 public class ManutencaoPessoaView extends JPanel {
 
-    
     private Pessoa p;
     private boolean searchBt;
     private List<Pessoa> list = Collections.emptyList();
@@ -267,6 +267,9 @@ public class ManutencaoPessoaView extends JPanel {
         }
 
         public void mouseClicked(java.awt.event.MouseEvent evt) {
+            if (evt.getSource() == masterTable) {
+                ManutencaoPessoaView.this.masterTableMouseClicked(evt);
+            }
         }
 
         public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -290,6 +293,15 @@ public class ManutencaoPessoaView extends JPanel {
         PessoaDAO dao = new PessoaDAO();
         list.clear();
         list.addAll(dao.findAll());
+        cpfField.setEnabled(false);
+        nomeField.setEnabled(false);
+        rgField.setEnabled(false);
+        rgField.setEditable(false);
+        cpfField.setEditable(false);
+        nomeField.setEditable(false);
+        nomeField.setText("");
+        rgField.setText("");
+        cpfField.setText("");
     }//GEN-LAST:event_refreshButtonActionPerformed
 
     private void enableForm(boolean b) {
@@ -303,14 +315,16 @@ public class ManutencaoPessoaView extends JPanel {
 
     private void myInitComponents() {
         bindingGroup = new BindingGroup();
-
+        modButton.setEnabled(false);
+        saveButton.setEnabled(false);
+        
         PessoaDAO dao = new PessoaDAO();
         list = ObservableCollections.observableList(dao.findAll());
         masterTable.setModel(new PessoaTableModel(list));
 
         JTableBinding jTableBinding = SwingBindings.createJTableBinding(AutoBinding.UpdateStrategy.READ_WRITE, list, masterTable);
         JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(ELProperty.create("${cpf}"));
-        columnBinding.setColumnName("cpf");
+        columnBinding.setColumnName("CPF");
         columnBinding.setColumnClass(String.class);
 
         columnBinding = jTableBinding.addColumnBinding(ELProperty.create("${nome}"));
@@ -323,35 +337,6 @@ public class ManutencaoPessoaView extends JPanel {
 
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
-/*
-        Binding binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ, masterTable, ELProperty.create("${selectedElement.cpf}"), cpfField, BeanProperty.create("text"));
-        binding.setSourceUnreadableValue("null");
-        bindingGroup.addBinding(binding);
-
-        binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, masterTable, ELProperty.create("${selectedElement.rg}"), rgField, BeanProperty.create("text"));
-        binding.setSourceUnreadableValue("null");
-        bindingGroup.addBinding(binding);
-        
-        binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, masterTable, ELProperty.create("${selectedElement.nome}"), nomeField, BeanProperty.create("text"));
-        binding.setSourceUnreadableValue("null");
-        bindingGroup.addBinding(binding);
-        
-        binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ, masterTable, ELProperty.create("${selectedElement != null}"), cpfField, BeanProperty.create("enabled"));
-        bindingGroup.addBinding(binding);
-
-        
-        binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ, masterTable, ELProperty.create("${selectedElement != null}"), rgField, BeanProperty.create("enabled"));
-        bindingGroup.addBinding(binding);
-        
-        binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ, masterTable, ELProperty.create("${selectedElement != null}"), nomeField, BeanProperty.create("enabled"));
-        bindingGroup.addBinding(binding);
-        
-
-        binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ, masterTable, ELProperty.create("${selectedElement != null}"), deleteButton, BeanProperty.create("enabled"));
-        bindingGroup.addBinding(binding);
-
-        bindingGroup.bind();
-*/
     }
 
     private void showSelected() {
@@ -405,14 +390,27 @@ public class ManutencaoPessoaView extends JPanel {
     }
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-        Pessoa altP = new Pessoa();
-        PessoaDAO dao = new PessoaDAO();
-        //altP.setIdpessoa(iKey);
-        altP.setCpf(cpfField.getText());
-        altP.setNome(nomeField.getText());
-        altP.setRg(rgField.getText());
-        //dao.remove(altP);
-        list.remove(altP);
+        int opcao = JOptionPane.showConfirmDialog(null, "Deseja realmente excluir o registro selecionado?", "Confirmação", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (opcao == JOptionPane.OK_OPTION) {
+            Thread t = new Thread(() -> {
+                try{ 
+                    int selected = masterTable.getSelectedRow();
+                    Pessoa p = list.get(selected);
+                    IDAO dao = new PessoaDAO();
+                    dao.remove(p);
+                    list.remove(selected);
+                }catch (BusinessException ex){
+                        JOptionPane.showMessageDialog(this, ex.getMessage(), "Erro",JOptionPane.ERROR_MESSAGE);
+                } 
+            });
+            t.start();
+        } else {
+            JOptionPane.showMessageDialog(null, "Operação cancelada!", "Informação", JOptionPane.INFORMATION_MESSAGE);
+        }
+        modButton.setEnabled(false);
+        nomeField.setText("");
+        cpfField.setText("");
+        rgField.setText("");
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
@@ -422,8 +420,7 @@ public class ManutencaoPessoaView extends JPanel {
         rgField.setText("");
         iKey = 0L;
         this.enableForm(true);
-
-
+        masterTable.clearSelection();
     }//GEN-LAST:event_newButtonActionPerformed
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
@@ -470,8 +467,8 @@ public class ManutencaoPessoaView extends JPanel {
 
     private void masterTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_masterTableMousePressed
         this.showSelected();
-        //System.out.println("masterTableMousePressed");
-
+        refreshButton.setEnabled(true);
+        modButton.setEnabled(true);
     }//GEN-LAST:event_masterTableMousePressed
 
     private void nomeFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nomeFieldActionPerformed
@@ -493,6 +490,9 @@ public class ManutencaoPessoaView extends JPanel {
             nomeField.setEnabled(true);
             nomeField.setText("");
             searchBt = true;
+            modButton.setEnabled(false);
+            deleteButton.setEnabled(false);
+            rgField.setText("");
             //cpfField.setFormatterFactory(null);            
 
         } else {
@@ -555,6 +555,10 @@ public class ManutencaoPessoaView extends JPanel {
 
     }//GEN-LAST:event_nomeFieldKeyPressed
 
+    private void masterTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_masterTableMouseClicked
+        
+    }//GEN-LAST:event_masterTableMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFormattedTextField cpfField;
@@ -595,13 +599,6 @@ public class ManutencaoPessoaView extends JPanel {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(ManutencaoPessoaView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */

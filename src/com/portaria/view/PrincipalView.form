@@ -8,21 +8,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Entrada"/>
           </Properties>
-          <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="pessoaMenuEntradaItem">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Pessoa"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pessoaMenuEntradaItemActionPerformed"/>
-              </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="veiculoMenuEntradaItem">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Ve&#xed;culo"/>
-              </Properties>
-            </MenuItem>
-          </SubComponents>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="entradaMenuMouseClicked"/>
+          </Events>
         </Menu>
         <Menu class="javax.swing.JMenu" name="saidaMenu">
           <Properties>

@@ -6,6 +6,9 @@
 package com.portaria.view;
 
 import com.portaria.session.SessionManager;
+import java.awt.EventQueue;
+import java.util.Locale;
+import javax.swing.JFrame;
 
 /**
  *
@@ -31,8 +34,6 @@ public class PrincipalView extends javax.swing.JFrame {
 
         jMenuBar1 = new javax.swing.JMenuBar();
         entradaMenu = new javax.swing.JMenu();
-        pessoaMenuEntradaItem = new javax.swing.JMenuItem();
-        veiculoMenuEntradaItem = new javax.swing.JMenuItem();
         saidaMenu = new javax.swing.JMenu();
         pessoaMenuSaidaItem = new javax.swing.JMenuItem();
         veiculoMenuSaidaItem = new javax.swing.JMenuItem();
@@ -52,18 +53,11 @@ public class PrincipalView extends javax.swing.JFrame {
         });
 
         entradaMenu.setText("Entrada");
-
-        pessoaMenuEntradaItem.setText("Pessoa");
-        pessoaMenuEntradaItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pessoaMenuEntradaItemActionPerformed(evt);
+        entradaMenu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                entradaMenuMouseClicked(evt);
             }
         });
-        entradaMenu.add(pessoaMenuEntradaItem);
-
-        veiculoMenuEntradaItem.setText("Veículo");
-        entradaMenu.add(veiculoMenuEntradaItem);
-
         jMenuBar1.add(entradaMenu);
 
         saidaMenu.setText("Saída");
@@ -131,24 +125,36 @@ public class PrincipalView extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void pessoaMenuEntradaItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pessoaMenuEntradaItemActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_pessoaMenuEntradaItemActionPerformed
-
     private void veiculoMenuSaidaItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_veiculoMenuSaidaItemActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_veiculoMenuSaidaItemActionPerformed
 
     private void veiculoMenuManutencaoItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_veiculoMenuManutencaoItemActionPerformed
-        // TODO add your handling code here:
+        java.awt.EventQueue.invokeLater(() -> {
+            new ManutencaoVeiculoView().setVisible(true);
+        });
     }//GEN-LAST:event_veiculoMenuManutencaoItemActionPerformed
 
     private void pessoaMenuManutencaoItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pessoaMenuManutencaoItemActionPerformed
-
+        EventQueue.invokeLater(() -> {
+            JFrame frame = new JFrame();
+            frame.setContentPane(new ManutencaoPessoaView());
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            frame.pack();
+            frame.setVisible(true);
+            frame.setLocationRelativeTo(null);
+        });
     }//GEN-LAST:event_pessoaMenuManutencaoItemActionPerformed
 
     private void usuarioMenuManutencaoItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usuarioMenuManutencaoItemActionPerformed
-        ManutencaoUsuarioView.main(null);
+        EventQueue.invokeLater(() -> {
+            JFrame frame = new JFrame();
+            frame.setContentPane(new ManutencaoUsuarioView());
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            frame.pack();
+            frame.setVisible(true);
+            frame.setLocationRelativeTo(null);
+        });
     }//GEN-LAST:event_usuarioMenuManutencaoItemActionPerformed
 
     private void usuarioMenuManutencaoItemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usuarioMenuManutencaoItemMouseClicked
@@ -167,6 +173,17 @@ public class PrincipalView extends javax.swing.JFrame {
             }).start();
         }
     }//GEN-LAST:event_formWindowOpened
+
+    private void entradaMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_entradaMenuMouseClicked
+        EventQueue.invokeLater(() -> {
+            JFrame frame = new JFrame();
+            frame.setContentPane(new ManutencaoEntradasView());
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            frame.pack();
+            frame.setVisible(true);
+            frame.setLocationRelativeTo(null);
+        });
+    }//GEN-LAST:event_entradaMenuMouseClicked
 
     /**
      * @param args the command line arguments
@@ -207,12 +224,10 @@ public class PrincipalView extends javax.swing.JFrame {
     private javax.swing.JMenu entradaMenu;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu manutencaoMenu;
-    private javax.swing.JMenuItem pessoaMenuEntradaItem;
     private javax.swing.JMenuItem pessoaMenuManutencaoItem;
     private javax.swing.JMenuItem pessoaMenuSaidaItem;
     private javax.swing.JMenu saidaMenu;
     private javax.swing.JMenuItem usuarioMenuManutencaoItem;
-    private javax.swing.JMenuItem veiculoMenuEntradaItem;
     private javax.swing.JMenuItem veiculoMenuManutencaoItem;
     private javax.swing.JMenuItem veiculoMenuSaidaItem;
     // End of variables declaration//GEN-END:variables
