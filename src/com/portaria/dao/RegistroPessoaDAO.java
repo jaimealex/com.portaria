@@ -6,6 +6,7 @@
 package com.portaria.dao;
 
 import com.portaria.entity.RegistroPessoa;
+import com.portaria.entity.Veiculo;
 import com.portaria.exception.BusinessException;
 import com.portaria.util.JPAUtil;
 import java.util.List;
@@ -39,8 +40,15 @@ public class RegistroPessoaDAO implements IDAO<RegistroPessoa> {
     public RegistroPessoa findById(Long codigo) {
         return entityManager.find(RegistroPessoa.class, codigo);
     }
-
-
+    
+    public List<RegistroPessoa> findBySaidaNull() {
+        TypedQuery<RegistroPessoa> query = entityManager.createNamedQuery("RegistroPessoa.findBySaidaNull", RegistroPessoa.class);
+                
+        List<RegistroPessoa> registroPessoa = query.getResultList();
+        JPAUtil.closeEntityManager(entityManager);
+        return registroPessoa;
+    }
+    
     @Override
     public List<RegistroPessoa> findAll() {
         TypedQuery<RegistroPessoa> query = entityManager.createNamedQuery("RegistroPessoa.findAll", RegistroPessoa.class);
