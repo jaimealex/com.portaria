@@ -212,7 +212,6 @@ public class ManutencaoEntradasView extends javax.swing.JPanel {
 
         jLabel3.setText("Placa:");
 
-        placaField.setText(" ");
         placaField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 placaFieldFocusLost(evt);
@@ -360,16 +359,6 @@ public class ManutencaoEntradasView extends javax.swing.JPanel {
         }        
     }//GEN-LAST:event_nomeFieldKeyReleased
 
-    private void cpfFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cpfFieldKeyReleased
-        if(cpfField.getText().length() > 3) { //mudar valor minimo para um valor maior
-            model.setFiltroPessoaByCpf(cpfField.getText());
-            
-        }
-        if(cpfField.getText().length() == 0) {
-            model.setFiltroPessoaByNome(null);            
-        }     
-    }//GEN-LAST:event_cpfFieldKeyReleased
-
     private void placaFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_placaFieldKeyReleased
         boolean lOk = false;
         if(placaField.getText().length() > 1) { //mudar valor minimo para um valor maior
@@ -381,11 +370,6 @@ public class ManutencaoEntradasView extends javax.swing.JPanel {
         }
         showVeiculo();
     }//GEN-LAST:event_placaFieldKeyReleased
-    private void placaFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_placaFieldFocusLost
-        if (model.getVeiculo().getIdveiculo() != null) {
-            placaField.setText(model.getVeiculo().getPlaca());
-        }
-    }
  
     private void placaFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_placaFieldActionPerformed
         // TODO add your handling code here:
@@ -433,8 +417,20 @@ public class ManutencaoEntradasView extends javax.swing.JPanel {
     }//GEN-LAST:event_addButtonVehActionPerformed
 
     private void placaFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_placaFieldFocusLost
-        // TODO add your handling code here:
+         if (model.getVeiculo().getIdveiculo() != null) {
+            placaField.setText(model.getVeiculo().getPlaca());
+        }
     }//GEN-LAST:event_placaFieldFocusLost
+
+    private void cpfFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cpfFieldKeyReleased
+        if(cpfField.getText().length() > 3) { //mudar valor minimo para um valor maior
+            model.setFiltroPessoaByCpf(cpfField.getText());
+
+        }
+        if(cpfField.getText().length() == 0) {
+            model.setFiltroPessoaByNome(null);
+        }
+    }//GEN-LAST:event_cpfFieldKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
