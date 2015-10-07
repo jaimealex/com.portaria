@@ -43,6 +43,7 @@ public class VeiculoDAO implements IDAO<Veiculo> {
     /**
      *
      * @param veiculo
+     * @return 
      * @throws BusinessException
      */
     @Override

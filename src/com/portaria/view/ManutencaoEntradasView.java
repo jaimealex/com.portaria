@@ -11,7 +11,6 @@ import java.awt.EventQueue;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.ELProperty;
@@ -396,6 +395,7 @@ public class ManutencaoEntradasView extends javax.swing.JPanel {
             frame.setVisible(true);
             frame.setLocationRelativeTo(null);
             frame.addWindowListener(new WindowAdapter() {
+                @Override
                 public void windowClosing (WindowEvent e) {
                     refreshTable();
                     frame.dispose();

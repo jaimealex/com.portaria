@@ -7,7 +7,6 @@ package com.portaria.view;
 
 import com.portaria.session.SessionManager;
 import java.awt.EventQueue;
-import java.util.Locale;
 import javax.swing.JFrame;
 
 /**
@@ -213,10 +212,8 @@ public class PrincipalView extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new PrincipalView().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new PrincipalView().setVisible(true);
         });
     }
 

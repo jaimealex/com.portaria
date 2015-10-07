@@ -13,15 +13,11 @@ import com.portaria.entity.RegistroPessoa;
 import com.portaria.entity.Usuario;
 import com.portaria.entity.Veiculo;
 import com.portaria.exception.BusinessException;
-import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
-import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.eclipse.persistence.jpa.jpql.parser.DateTime;
 import org.jdesktop.observablecollections.ObservableCollections;
 
 /**
@@ -35,7 +31,7 @@ public class EntradaModel extends BindableModel {
     private Veiculo veiculo;
     private Pessoa pessoa;
     
-    private List<Pessoa> pessoas;
+    private final List<Pessoa> pessoas;
     private List<Pessoa> pessoasSelecionadas;
 
     public List<Pessoa> getPessoasSelecionadas() {
@@ -108,7 +104,7 @@ public class EntradaModel extends BindableModel {
         }
             
         
-        if (pessoas.size() > 0) {
+        if(pessoas.size() > 0) {
             return true;
         } else {
             return false;
@@ -127,7 +123,7 @@ public class EntradaModel extends BindableModel {
         }
             
         
-        if (pessoas.size() > 0) {
+        if(pessoas.size() > 0) {
             return true;
         } else {
             return false;

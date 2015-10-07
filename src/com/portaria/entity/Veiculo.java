@@ -104,7 +104,7 @@ public class Veiculo implements Serializable {
             return false;
         }
         Veiculo other = (Veiculo) object;
-        if ((this.idveiculo == null && other.idveiculo != null) || (this.idveiculo != null && !this.idveiculo.equals(other.idveiculo))) {
+        if((this.idveiculo == null && other.idveiculo != null) || (this.idveiculo != null && !this.idveiculo.equals(other.idveiculo))) {
             return false;
         }
         return true;
