@@ -101,8 +101,7 @@ public class EntradaModel extends BindableModel {
         PessoaDAO dao = new PessoaDAO();
         pessoas.clear();
         if (s == null){
-            pessoas.addAll(dao.findAll());
-            
+            pessoas.addAll(dao.findAll());            
         }
         else {
             pessoas.addAll(dao.findByNome(s));

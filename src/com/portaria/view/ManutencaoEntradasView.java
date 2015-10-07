@@ -8,7 +8,10 @@ package com.portaria.view;
 import com.portaria.control.EntradaController;
 import com.portaria.model.EntradaModel;
 import java.awt.EventQueue;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.ELProperty;
@@ -391,15 +394,26 @@ public class ManutencaoEntradasView extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_corFieldActionPerformed
 
+    private void refreshTable(){
+        model.setFiltroPessoaByNome(null);
+    }
+    
     private void addButtonClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonClientActionPerformed
         EventQueue.invokeLater(() -> {
             JFrame frame = new JFrame();
             frame.setContentPane(new ManutencaoPessoaView());
-            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             frame.pack();
             frame.setVisible(true);
             frame.setLocationRelativeTo(null);
+            frame.addWindowListener(new WindowAdapter() {
+                public void windowClosing (WindowEvent e) {
+                    refreshTable();
+                    frame.dispose();
+                }
+            });
         });
+            
     }//GEN-LAST:event_addButtonClientActionPerformed
 
     private void addButtonVehActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonVehActionPerformed
