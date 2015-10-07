@@ -36,7 +36,6 @@ import org.jdesktop.swingbinding.SwingBindings;
  * @author winston.sonnesen
  */
 public class ManutencaoVeiculoView extends javax.swing.JFrame {
-
     private VeiculoModel model = new VeiculoModel();
     private VeiculoController controller = new VeiculoController(model);
 
@@ -273,7 +272,7 @@ public class ManutencaoVeiculoView extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private class VeiculoTableModel extends AbstractTableModel implements TableCellRenderer {
-
+        
         private final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         private List<Veiculo> veiculos;
         private final int COLUMN_COUNT = 4;
@@ -348,7 +347,7 @@ public class ManutencaoVeiculoView extends javax.swing.JFrame {
     }
 
     private class VeiculoMasterTableListSelectionListener implements ListSelectionListener {
-
+        
         @Override
         public void valueChanged(ListSelectionEvent e) {
             if (e.getValueIsAdjusting()) {

@@ -17,7 +17,6 @@ import java.util.List;
  * @author winston.sonnesen
  */
 public class VeiculoController implements IController {
-
     private VeiculoDAO veiculoDAO;
     private final VeiculoModel model;
 

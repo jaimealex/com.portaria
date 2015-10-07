@@ -5,8 +5,6 @@
  */
 package com.portaria.view;
 
-import com.portaria.control.EntradaController;
-import com.portaria.model.EntradaModel;
 import com.portaria.model.SaidaModel;
 import java.awt.EventQueue;
 import java.util.Date;

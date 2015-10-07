@@ -9,6 +9,7 @@ import com.portaria.control.EntradaController;
 import com.portaria.control.VeiculoController;
 import com.portaria.exception.BusinessException;
 import com.portaria.model.VeiculoModel;
+import java.awt.event.KeyEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -119,6 +120,12 @@ public class VeiculoForm extends javax.swing.JDialog {
 
         jLabel4.setText("Cor:");
 
+        corField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                corFieldKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -189,6 +196,12 @@ public class VeiculoForm extends javax.swing.JDialog {
         // TODO add your handling code here:
         dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
+
+    private void corFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_corFieldKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            saveButton.doClick();
+        }
+    }//GEN-LAST:event_corFieldKeyReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;

@@ -34,8 +34,6 @@ public class PrincipalView extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         entradaMenu = new javax.swing.JMenu();
         saidaMenu = new javax.swing.JMenu();
-        pessoaMenuSaidaItem = new javax.swing.JMenuItem();
-        veiculoMenuSaidaItem = new javax.swing.JMenuItem();
         manutencaoMenu = new javax.swing.JMenu();
         pessoaMenuManutencaoItem = new javax.swing.JMenuItem();
         veiculoMenuManutencaoItem = new javax.swing.JMenuItem();
@@ -60,18 +58,6 @@ public class PrincipalView extends javax.swing.JFrame {
         jMenuBar1.add(entradaMenu);
 
         saidaMenu.setText("Saída");
-
-        pessoaMenuSaidaItem.setText("Pessoa");
-        saidaMenu.add(pessoaMenuSaidaItem);
-
-        veiculoMenuSaidaItem.setText("Veículo");
-        veiculoMenuSaidaItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                veiculoMenuSaidaItemActionPerformed(evt);
-            }
-        });
-        saidaMenu.add(veiculoMenuSaidaItem);
-
         jMenuBar1.add(saidaMenu);
 
         manutencaoMenu.setText("Manutenção");
@@ -123,10 +109,6 @@ public class PrincipalView extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void veiculoMenuSaidaItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_veiculoMenuSaidaItemActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_veiculoMenuSaidaItemActionPerformed
 
     private void veiculoMenuManutencaoItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_veiculoMenuManutencaoItemActionPerformed
         java.awt.EventQueue.invokeLater(() -> {
@@ -222,10 +204,8 @@ public class PrincipalView extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu manutencaoMenu;
     private javax.swing.JMenuItem pessoaMenuManutencaoItem;
-    private javax.swing.JMenuItem pessoaMenuSaidaItem;
     private javax.swing.JMenu saidaMenu;
     private javax.swing.JMenuItem usuarioMenuManutencaoItem;
     private javax.swing.JMenuItem veiculoMenuManutencaoItem;
-    private javax.swing.JMenuItem veiculoMenuSaidaItem;
     // End of variables declaration//GEN-END:variables
 }

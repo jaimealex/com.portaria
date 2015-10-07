@@ -10,6 +10,7 @@ import com.portaria.dao.UsuarioDAO;
 import com.portaria.entity.Usuario;
 import com.portaria.exception.BusinessException;
 import java.awt.EventQueue;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -80,19 +81,19 @@ public class ManutencaoUsuarioView extends JPanel {
         jTableBinding.bind();
         
         Binding binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, masterTable, ELProperty.create("${selectedElement.login}"), loginField, BeanProperty.create("text"));
-        binding.setSourceUnreadableValue("null");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
         binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ, masterTable, ELProperty.create("${selectedElement != null}"), loginField, BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
         binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, masterTable, ELProperty.create("${selectedElement.nome}"), nomeField, BeanProperty.create("text"));
-        binding.setSourceUnreadableValue("null");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
         binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ, masterTable, ELProperty.create("${selectedElement != null}"), nomeField, BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
         binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, masterTable, ELProperty.create("${selectedElement.senha}"), senhaField, BeanProperty.create("text"));
-        binding.setSourceUnreadableValue("null");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
         binding = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ, masterTable, ELProperty.create("${selectedElement != null}"), senhaField, BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
@@ -263,6 +264,7 @@ public class ManutencaoUsuarioView extends JPanel {
         senhaField.setEnabled(false);
         senhaField.setFocusable(false);
         senhaField.addActionListener(formListener);
+        senhaField.addKeyListener(formListener);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -334,7 +336,7 @@ public class ManutencaoUsuarioView extends JPanel {
 
     // Code for dispatching events from components to event handlers.
 
-    private class FormListener implements java.awt.event.ActionListener, java.awt.event.MouseListener {
+    private class FormListener implements java.awt.event.ActionListener, java.awt.event.KeyListener, java.awt.event.MouseListener {
         FormListener() {}
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             if (evt.getSource() == saveButton) {
@@ -355,6 +357,18 @@ public class ManutencaoUsuarioView extends JPanel {
             else if (evt.getSource() == senhaField) {
                 ManutencaoUsuarioView.this.senhaFieldActionPerformed(evt);
             }
+        }
+
+        public void keyPressed(java.awt.event.KeyEvent evt) {
+        }
+
+        public void keyReleased(java.awt.event.KeyEvent evt) {
+            if (evt.getSource() == senhaField) {
+                ManutencaoUsuarioView.this.senhaFieldKeyReleased(evt);
+            }
+        }
+
+        public void keyTyped(java.awt.event.KeyEvent evt) {
         }
 
         public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -522,6 +536,12 @@ public class ManutencaoUsuarioView extends JPanel {
         cancelButton.setEnabled(true);
         updateButton.setEnabled(true);
     }//GEN-LAST:event_masterTableMousePressed
+
+    private void senhaFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_senhaFieldKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            saveButton.doClick();
+        }
+    }//GEN-LAST:event_senhaFieldKeyReleased
 
     private javax.persistence.EntityManager entityManager;
     // Variables declaration - do not modify//GEN-BEGIN:variables

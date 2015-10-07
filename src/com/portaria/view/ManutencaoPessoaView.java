@@ -11,6 +11,7 @@ import com.portaria.entity.Pessoa;
 import com.portaria.exception.BusinessException;
 
 import java.awt.EventQueue;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -414,13 +415,15 @@ public class ManutencaoPessoaView extends JPanel {
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
-
         cpfField.setText("");
         nomeField.setText("");
         rgField.setText("");
         iKey = 0L;
         this.enableForm(true);
         masterTable.clearSelection();
+        saveButton.setEnabled(true);
+        PessoaDAO dao = new PessoaDAO();
+        list.addAll(dao.findAll());
     }//GEN-LAST:event_newButtonActionPerformed
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
@@ -506,7 +509,6 @@ public class ManutencaoPessoaView extends JPanel {
             list.addAll(dao.findAll());
             searchBt = false;
         }
-
     }//GEN-LAST:event_srchButtonActionPerformed
 
     private void nomeFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nomeFieldKeyReleased
@@ -530,7 +532,7 @@ public class ManutencaoPessoaView extends JPanel {
             nomeField.setText("");
             PessoaDAO dao = new PessoaDAO();
             list.clear();
-            if (cpfField.getText() == ""){
+            if (cpfField.getText() == "..-"){
                 list.addAll(dao.findAll());
             }
             else {                

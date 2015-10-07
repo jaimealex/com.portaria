@@ -16,7 +16,6 @@ import org.jdesktop.observablecollections.ObservableCollections;
  * @author winston.sonnesen
  */
 public class VeiculoModel extends BindableModel {
-
     private Veiculo registroSelecionado;
     private Veiculo backupRegistro;
     private Veiculo registroEditado;
