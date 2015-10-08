@@ -136,6 +136,7 @@ public class ManutencaoSaidasView extends javax.swing.JPanel {
         jScrollPane2 = new javax.swing.JScrollPane();
         masterTablePessoas = new javax.swing.JTable();
         saiButton = new javax.swing.JButton();
+        refreshButton = new javax.swing.JButton();
 
         masterTableVeiculos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -178,6 +179,13 @@ public class ManutencaoSaidasView extends javax.swing.JPanel {
             }
         });
 
+        refreshButton.setText("Atualiza");
+        refreshButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -192,7 +200,9 @@ public class ManutencaoSaidasView extends javax.swing.JPanel {
                         .addComponent(jScrollPane1)
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(20, 20, 20)
+                        .addComponent(refreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(saiButton, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(28, 28, 28))))
         );
@@ -202,7 +212,9 @@ public class ManutencaoSaidasView extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(saiButton)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(saiButton)
+                    .addComponent(refreshButton))
                 .addGap(11, 11, 11)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(40, 40, 40))
@@ -229,12 +241,18 @@ public class ManutencaoSaidasView extends javax.swing.JPanel {
             
     }//GEN-LAST:event_masterTablePessoasMouseReleased
 
+    private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
+        model.setPessoas();
+        model.setVeiculos();
+    }//GEN-LAST:event_refreshButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable masterTablePessoas;
     private javax.swing.JTable masterTableVeiculos;
+    private javax.swing.JButton refreshButton;
     private javax.swing.JButton saiButton;
     // End of variables declaration//GEN-END:variables
 

@@ -58,6 +58,14 @@ public class PrincipalView extends javax.swing.JFrame {
         jMenuBar1.add(entradaMenu);
 
         saidaMenu.setText("Saída");
+        saidaMenu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                saidaMenuMouseClicked(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                saidaMenuMouseReleased(evt);
+            }
+        });
         jMenuBar1.add(saidaMenu);
 
         manutencaoMenu.setText("Manutenção");
@@ -165,6 +173,28 @@ public class PrincipalView extends javax.swing.JFrame {
             frame.setLocationRelativeTo(null);
         });
     }//GEN-LAST:event_entradaMenuMouseClicked
+
+    private void saidaMenuMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_saidaMenuMouseReleased
+        EventQueue.invokeLater(() -> {
+            JFrame frame = new JFrame();
+            frame.setContentPane(new ManutencaoSaidasView());
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            frame.pack();
+            frame.setVisible(true);
+            frame.setLocationRelativeTo(null);
+        });
+    }//GEN-LAST:event_saidaMenuMouseReleased
+
+    private void saidaMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_saidaMenuMouseClicked
+        EventQueue.invokeLater(() -> {
+            JFrame frame = new JFrame();
+            frame.setContentPane(new ManutencaoSaidasView());
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            frame.pack();
+            frame.setVisible(true);
+            frame.setLocationRelativeTo(null);
+        });
+    }//GEN-LAST:event_saidaMenuMouseClicked
 
     /**
      * @param args the command line arguments

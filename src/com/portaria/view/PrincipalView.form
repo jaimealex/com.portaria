@@ -16,6 +16,10 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Sa&#xed;da"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="saidaMenuMouseClicked"/>
+            <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="saidaMenuMouseReleased"/>
+          </Events>
         </Menu>
         <Menu class="javax.swing.JMenu" name="manutencaoMenu">
           <Properties>
