@@ -32,7 +32,6 @@ public class PessoaDAO implements IDAO<Pessoa> {
         } catch (PersistenceException ex) {
             throw new BusinessException("Erro ao remover o registro: " + pessoa, ex);
         }
-        JPAUtil.closeEntityManager(entityManager);
     }
 
     @Override

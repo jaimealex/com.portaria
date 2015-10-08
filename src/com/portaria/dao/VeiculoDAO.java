@@ -36,7 +36,6 @@ public class VeiculoDAO implements IDAO<Veiculo> {
     @Override
     public List<Veiculo> findAll() {
         List<Veiculo> veiculos = manager.createNamedQuery("Veiculo.findAll", Veiculo.class).getResultList();
-        manager.close();
         return veiculos;
     }
 
@@ -57,8 +56,6 @@ public class VeiculoDAO implements IDAO<Veiculo> {
             manager.getTransaction().commit();
         } catch (RollbackException e) {
             throw new BusinessException("Erro ao salvar registro: " + veiculo, e);
-        } finally {
-            manager.close();
         }
         return veiculo;
     }
@@ -71,8 +68,6 @@ public class VeiculoDAO implements IDAO<Veiculo> {
             manager.getTransaction().commit();
         } catch (RollbackException e) {
             throw new BusinessException("Erro ao remover registro: " + veiculo, e);
-        } finally {
-            manager.close();
         }
     }
 
@@ -84,14 +79,13 @@ public class VeiculoDAO implements IDAO<Veiculo> {
     @Override
     public Veiculo findById(Long id) {
         Veiculo veiculo = manager.find(Veiculo.class, id);
-        manager.close();
         return veiculo;
     }    
     public List<Veiculo> findByPlaca(String placa) {
         TypedQuery<Veiculo> query = manager.createNamedQuery("Veiculo.findByPlaca", Veiculo.class)
                 .setParameter("placa", "%" + placa + "%");
         List<Veiculo> veiculos = query.getResultList();
-        JPAUtil.closeEntityManager(manager);
-        return veiculos;
+         return veiculos;
     }
+    
 }

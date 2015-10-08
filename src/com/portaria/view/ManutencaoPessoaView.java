@@ -82,6 +82,7 @@ public class ManutencaoPessoaView extends JPanel {
             }
         ));
         masterTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        masterTable.setFocusable(false);
         masterTable.addMouseListener(formListener);
         masterTable.addKeyListener(formListener);
         masterScrollPane.setViewportView(masterTable);
@@ -607,7 +608,7 @@ public class ManutencaoPessoaView extends JPanel {
         EventQueue.invokeLater(() -> {
             JFrame frame = new JFrame();
             frame.setContentPane(new ManutencaoPessoaView());
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             frame.pack();
             frame.setVisible(true);
             frame.setLocationRelativeTo(null);

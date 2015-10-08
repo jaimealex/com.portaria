@@ -10,6 +10,7 @@ import com.portaria.entity.Usuario;
 import com.portaria.exception.BusinessException;
 import com.portaria.model.LoginModel;
 import com.portaria.session.SessionManager;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -26,8 +27,8 @@ public class LoginController {
     public void doLogin(Usuario usuario) throws BusinessException {
         UsuarioDAO dao = new UsuarioDAO();
         Usuario usuarioLogado = dao.findByLoginSenha(usuario.getLogin(), usuario.getSenha());
-        if (usuarioLogado == null) {
-            throw new BusinessException("Usuário e/ou senha inválidos!");
+        if (usuarioLogado == null) {           
+            JOptionPane.showMessageDialog(null, "Operação executada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
         }
         SessionManager.setUsuarioLogado(usuarioLogado);
     }

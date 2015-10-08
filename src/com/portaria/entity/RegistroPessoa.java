@@ -30,6 +30,7 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "RegistroPessoa.findByIdregistro", query = "SELECT r FROM RegistroPessoa r WHERE r.idregistro = :idregistro"),
     @NamedQuery(name = "RegistroPessoa.findByEntrada", query = "SELECT r FROM RegistroPessoa r WHERE r.entrada = :entrada"),
     @NamedQuery(name = "RegistroPessoa.findBySaida", query = "SELECT r FROM RegistroPessoa r WHERE r.saida = :saida"),
+    @NamedQuery(name = "RegistroPessoa.findBySaidaNull", query = "SELECT r FROM RegistroPessoa r WHERE r.saida = null"),
     @NamedQuery(name = "RegistroPessoa.findByIdusuario", query = "SELECT r FROM RegistroPessoa r WHERE r.idusuario = :idusuario"),
     @NamedQuery(name = "RegistroPessoa.findByIdpessoa", query = "SELECT r FROM RegistroPessoa r WHERE r.idpessoa = :idpessoa")})
 public class RegistroPessoa implements Serializable {

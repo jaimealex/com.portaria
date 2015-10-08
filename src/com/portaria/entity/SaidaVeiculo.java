@@ -12,16 +12,26 @@ import java.util.Date;
  * @author visitante
  */
 public class SaidaVeiculo extends Veiculo {
-    private Date entrada;
+    private String entrada;
     private long idEntrada;
+    private boolean selected;
 
-    public Date getEntrada() {
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
+    public String getEntrada() {
         return entrada;
     }
 
-    public void setEntrada(Date entrada) {
+    public void setEntrada(String entrada) {
         this.entrada = entrada;
     }
+    
 
     public long getIdEntrada() {
         return idEntrada;

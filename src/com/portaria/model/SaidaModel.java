@@ -16,9 +16,14 @@ import com.portaria.entity.SaidaPessoa;
 import com.portaria.entity.SaidaVeiculo;
 import com.portaria.entity.Usuario;
 import com.portaria.entity.Veiculo;
+import com.portaria.exception.BusinessException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.jdesktop.observablecollections.ObservableCollections;
 
@@ -34,7 +39,27 @@ public class SaidaModel extends BindableModel {
     private SaidaPessoa pessoa;
     
     private List<SaidaPessoa> pessoas;
-    private List<Veiculo> veiculos;
+    private List<SaidaVeiculo> veiculos;
+    private int[] pessoasSelecionadas;
+    private int[] veiculosSelecionados;
+
+    public int[] getPessoasSelecionadas() {
+        return pessoasSelecionadas;
+    }
+
+    public void setPessoasSelecionadas(int[] pessoasSelecionadas) {
+        this.pessoasSelecionadas = pessoasSelecionadas;
+    }
+
+    public int[] getVeiculosSelecionados() {
+        return veiculosSelecionados;
+    }
+
+    public void setVeiculosSelecionados(int[] veiculosSelecionados) {
+        this.veiculosSelecionados = veiculosSelecionados;
+    }
+    
+    
 
     //private NavigableMap<Long, Inscricao> inscricaoNavigableMap;
     /**
@@ -82,7 +107,7 @@ public class SaidaModel extends BindableModel {
         RegistroPessoaDAO rpDAO = new RegistroPessoaDAO();
         List<RegistroPessoa> rps = rpDAO.findBySaidaNull();
         PessoaDAO pDAO = new PessoaDAO();
-        
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:SS");
         pessoas.clear();
         for (RegistroPessoa rp: rps){
             Pessoa p = pDAO.findById(rp.getIdpessoa());  
@@ -90,15 +115,16 @@ public class SaidaModel extends BindableModel {
             sp.setNome(p.getNome());
             sp.setCpf(p.getCpf());
             sp.setRg(p.getRg());
-            sp.setEntrada(rp.getEntrada());
-            sp.setIdEntrada(rp.getIdregistro());            
+            sp.setEntrada(df.format(rp.getEntrada()));            
+            sp.setIdEntrada(rp.getIdregistro());     
+            sp.setSelected(false);
             pessoas.add(sp);
             
         }
         
     }
 
-    public List<Veiculo> getVeiculos() {
+    public List<SaidaVeiculo> getVeiculos() {
         return veiculos;
     }
 
@@ -107,8 +133,8 @@ public class SaidaModel extends BindableModel {
         RegistroVeiculoDAO rvDAO = new RegistroVeiculoDAO();
         List<RegistroVeiculo> rvs = rvDAO.findBySaidaNull();
         VeiculoDAO pDAO = new VeiculoDAO();
-        
-        pessoas.clear();
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:SS");
+        veiculos.clear();
         for (RegistroVeiculo rv: rvs){
             Veiculo v = pDAO.findById(rv.getIdveiculo());  
             
@@ -116,12 +142,12 @@ public class SaidaModel extends BindableModel {
             sv.setCor(v.getCor());
             sv.setPlaca(v.getPlaca());            
             sv.setModelo(v.getModelo());
-            sv.setEntrada(rv.getEntrada());
-            sv.setIdEntrada(rv.getIdregistro());            
-            veiculos.add(sv);
             
+            sv.setEntrada(df.format(rv.getEntrada()));
+            sv.setIdEntrada(rv.getIdregistro());   
+            sv.setSelected(false);
+            veiculos.add(sv);
         }
-        
     }
 
 
@@ -130,7 +156,35 @@ public class SaidaModel extends BindableModel {
    
     public void salvaSaida() {
         
-        Date dt = new Date();        
+        Date dt = new Date();    
+        RegistroPessoaDAO pDao = new RegistroPessoaDAO();
+        RegistroPessoa rp;
+        for(Integer i: pessoasSelecionadas) {
+            pessoas.get(i).setSelected(true);
+            rp = pDao.findById(pessoas.get(i).getIdEntrada());
+            rp.setSaida(dt);
+            
+            try {
+                pDao.save(rp);                
+            } catch (BusinessException ex) {
+                Logger.getLogger(SaidaModel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        RegistroVeiculoDAO vDao = new RegistroVeiculoDAO();
+        RegistroVeiculo rv;
+        for(Integer i: veiculosSelecionados) {
+            veiculos.get(i).setSelected(true);
+            rv = vDao.findById(veiculos.get(i).getIdEntrada());
+            rv.setSaida(dt);
+            try {
+                vDao.save(rv);                
+            } catch (BusinessException ex) {
+                Logger.getLogger(SaidaModel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }    
+                
+        this.setPessoas();
+        this.setVeiculos();
         
 //        for(Pessoa p: pessoasSelecionadas) {
 //            RegistroPessoaDAO dao = new RegistroPessoaDAO();
@@ -149,5 +203,6 @@ public class SaidaModel extends BindableModel {
         
         
     }
+
 
 }

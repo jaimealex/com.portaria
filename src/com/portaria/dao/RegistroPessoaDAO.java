@@ -74,7 +74,7 @@ public class RegistroPessoaDAO implements IDAO<RegistroPessoa> {
             throw new BusinessException("Erro ao salvar o registro " + registroPessoa, ex);
         }
 
-        JPAUtil.closeEntityManager(entityManager);
+        //JPAUtil.closeEntityManager(entityManager);
 
         return merged;
     }

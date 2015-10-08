@@ -74,7 +74,7 @@ public class RegistroVeiculoDAO implements IDAO<RegistroVeiculo> {
             throw new BusinessException("Erro ao salvar o registro " + registroVeiculo, ex);
         }
 
-        JPAUtil.closeEntityManager(entityManager);
+        //JPAUtil.closeEntityManager(entityManager);
 
         return merged;
     }

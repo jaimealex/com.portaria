@@ -11,6 +11,7 @@ import java.awt.EventQueue;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.ELProperty;
@@ -134,11 +135,11 @@ public class ManutencaoEntradasView extends javax.swing.JPanel {
         placaField = new javax.swing.JTextField();
         modeloField = new javax.swing.JTextField();
         corField = new javax.swing.JTextField();
-        selButtonVeh = new javax.swing.JButton();
         addButtonClient = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         addButtonVeh = new javax.swing.JButton();
+        entradaButton = new javax.swing.JButton();
 
         masterTableSelected.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -156,6 +157,7 @@ public class ManutencaoEntradasView extends javax.swing.JPanel {
                 return types [columnIndex];
             }
         });
+        masterTableSelected.setFocusable(false);
         jScrollPane1.setViewportView(masterTableSelected);
 
         nomeField.addActionListener(new java.awt.event.ActionListener() {
@@ -200,9 +202,16 @@ public class ManutencaoEntradasView extends javax.swing.JPanel {
                 return types [columnIndex];
             }
         });
+        masterTableAll.setFocusable(false);
+        masterTableAll.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                masterTableAllMouseReleased(evt);
+            }
+        });
         jScrollPane2.setViewportView(masterTableAll);
 
         selButtonClient.setText("Selecionar");
+        selButtonClient.setEnabled(false);
         selButtonClient.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 selButtonClientActionPerformed(evt);
@@ -228,22 +237,17 @@ public class ManutencaoEntradasView extends javax.swing.JPanel {
         });
 
         modeloField.setText(" ");
+        modeloField.setEnabled(false);
 
         corField.setText(" ");
+        corField.setEnabled(false);
         corField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 corFieldActionPerformed(evt);
             }
         });
 
-        selButtonVeh.setText("Selecionar");
-        selButtonVeh.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                selButtonVehActionPerformed(evt);
-            }
-        });
-
-        addButtonClient.setText("Adicionar");
+        addButtonClient.setText("Adicionar Pessoa");
         addButtonClient.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addButtonClientActionPerformed(evt);
@@ -254,10 +258,17 @@ public class ManutencaoEntradasView extends javax.swing.JPanel {
 
         jLabel5.setText("Cor:");
 
-        addButtonVeh.setText("Adicionar");
+        addButtonVeh.setText("Adicionar Veiculo");
         addButtonVeh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addButtonVehActionPerformed(evt);
+            }
+        });
+
+        entradaButton.setText("Efetuar Entrada");
+        entradaButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                entradaButtonActionPerformed(evt);
             }
         });
 
@@ -268,55 +279,57 @@ public class ManutencaoEntradasView extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane1)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 632, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(placaField, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(modeloField)
+                                .addGap(31, 31, 31)
+                                .addComponent(jLabel5)
+                                .addGap(18, 18, 18)
+                                .addComponent(corField, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(65, 65, 65))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(cpfField, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGap(56, 56, 56)
                                 .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGap(28, 28, 28)
                                 .addComponent(nomeField, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(selButtonClient)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(addButtonClient, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane2))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                                .addGap(36, 36, 36)))
+                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(placaField, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(modeloField, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(corField, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(selButtonVeh)
+                        .addGap(18, 18, 18)
+                        .addComponent(addButtonClient, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(74, 74, 74)
+                        .addComponent(addButtonVeh)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(addButtonVeh)))
-                .addContainerGap())
+                        .addComponent(entradaButton, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(31, 31, 31))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(nomeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
                     .addComponent(cpfField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
-                    .addComponent(selButtonClient)
-                    .addComponent(addButtonClient))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(selButtonClient))
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -324,17 +337,19 @@ public class ManutencaoEntradasView extends javax.swing.JPanel {
                     .addComponent(placaField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(modeloField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(corField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(selButtonVeh)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel5)
-                    .addComponent(addButtonVeh))
-                .addContainerGap())
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(addButtonClient)
+                    .addComponent(addButtonVeh)
+                    .addComponent(entradaButton))
+                .addGap(0, 9, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void selButtonClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selButtonClientActionPerformed
         int row = masterTableAll.getSelectedRow();
-        System.out.println(row);
         if (row >= 0) {            
             model.movePessoa(row);
         }
@@ -374,10 +389,6 @@ public class ManutencaoEntradasView extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_placaFieldActionPerformed
 
-    private void selButtonVehActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selButtonVehActionPerformed
-        model.salvaEntrada();
-    }//GEN-LAST:event_selButtonVehActionPerformed
-
     private void corFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_corFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_corFieldActionPerformed
@@ -388,31 +399,14 @@ public class ManutencaoEntradasView extends javax.swing.JPanel {
     
     private void addButtonClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonClientActionPerformed
         EventQueue.invokeLater(() -> {
-            JFrame frame = new JFrame();
-            frame.setContentPane(new ManutencaoPessoaView());
-            frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-            frame.pack();
-            frame.setVisible(true);
-            frame.setLocationRelativeTo(null);
-            frame.addWindowListener(new WindowAdapter() {
-                @Override
-                public void windowClosing (WindowEvent e) {
-                    refreshTable();
-                    frame.dispose();
-                }
-            });
+            ManutencaoPessoaView.main(null);
         });
             
     }//GEN-LAST:event_addButtonClientActionPerformed
 
     private void addButtonVehActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonVehActionPerformed
         EventQueue.invokeLater(() -> {
-            JFrame frame = new JFrame();
-            frame.setContentPane(new ManutencaoVeiculoView());
-            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            frame.pack();
-            frame.setVisible(true);
-            frame.setLocationRelativeTo(null);
+            ManutencaoVeiculoView.main(null);
         });
     }//GEN-LAST:event_addButtonVehActionPerformed
 
@@ -432,12 +426,27 @@ public class ManutencaoEntradasView extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_cpfFieldKeyReleased
 
+    private void entradaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entradaButtonActionPerformed
+        int opcao = JOptionPane.showConfirmDialog(null, "Confirma a entrada dos itens selecionados?", "Confirmação", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (opcao == JOptionPane.OK_OPTION) {
+            model.salvaEntrada();
+            placaField.setText("");
+            modeloField.setText("");
+            corField.setText("");
+        }
+    }//GEN-LAST:event_entradaButtonActionPerformed
+
+    private void masterTableAllMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_masterTableAllMouseReleased
+        selButtonClient.setEnabled(true);
+    }//GEN-LAST:event_masterTableAllMouseReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButtonClient;
     private javax.swing.JButton addButtonVeh;
     private javax.swing.JTextField corField;
     private javax.swing.JTextField cpfField;
+    private javax.swing.JButton entradaButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -451,7 +460,6 @@ public class ManutencaoEntradasView extends javax.swing.JPanel {
     private javax.swing.JTextField nomeField;
     private javax.swing.JTextField placaField;
     private javax.swing.JButton selButtonClient;
-    private javax.swing.JButton selButtonVeh;
     // End of variables declaration//GEN-END:variables
 
     private void showVeiculo() {
